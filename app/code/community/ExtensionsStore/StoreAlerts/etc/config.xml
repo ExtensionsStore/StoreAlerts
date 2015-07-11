@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * 
+ * @category    ExtensionsStore
+ * @package     ExtensionsStore_StoreAlerts
+ * @author      Extensions Store <admin@extensions-store.com>
+ */
+-->
+<config>
+    <modules>
+        <ExtensionsStore_StoreAlerts>
+            <version>0.1.0</version>
+        </ExtensionsStore_StoreAlerts>
+    </modules>
+    <phpunit>
+        <suite>
+            <modules>
+                <ExtensionsStore_StoreAlerts />
+            </modules>
+        </suite>
+    </phpunit>       
+    <frontend>
+        <routers>
+            <storealerts>
+                <use>standard</use>
+                <args>
+                    <module>ExtensionsStore_StoreAlerts</module>
+                    <frontName>storealerts</frontName>
+                </args>
+            </storealerts>
+        </routers>          
+    </frontend>
+    <global>
+        <helpers>
+            <extensions_store_storealerts>
+                <class>ExtensionsStore_StoreAlerts_Helper</class>
+            </extensions_store_storealerts>
+            <storealerts>
+                <class>ExtensionsStore_StoreAlerts_Helper</class>
+            </storealerts>
+        </helpers>
+        <models>
+            <extensions_store_storealerts>
+                <class>ExtensionsStore_StoreAlerts_Model</class>
+            </extensions_store_storealerts>
+        </models>
+        <resources>
+            <extensions_store_storealerts_setup>
+                <setup>
+                    <module>ExtensionsStore_StoreAlerts</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </extensions_store_storealerts_setup>
+        </resources>           
+    </global> 
+    <default>
+        <extensions_store_storealerts>
+            <configuration>
+                <enabled>1</enabled>
+            </configuration>
+        </extensions_store_storealerts>
+    </default>
+</config>

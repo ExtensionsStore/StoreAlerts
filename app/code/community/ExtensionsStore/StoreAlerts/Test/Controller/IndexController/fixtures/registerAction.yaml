@@ -1,0 +1,13 @@
+tables:
+  admin/user:
+    - user_id: 1
+      firstname: Test
+      lastname: Admin
+      username: owner@example.com
+      email: owner@example.com
+  oauth/consumer:
+    - entity_id: 1
+      name: Store Alerts
+      key: 229083104fef36de8ae47028cfc06f93
+      secret: 01837b8da31cff5060e70123baee6b20
+      callback_url: http://ce-1.9.1.local/
