@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Addressvalidator acl
+ * Store Alerts acl
  * 
- * @category   Aydus
- * @package    Aydus_Addressvalidator
- * @author     Aydus <davidt@aydus.com>
+ * @category    ExtensionsStore
+ * @package     ExtensionsStore_StoreAlerts
+ * @author      Extensions Store <admin@extensions-store.com>
  */
 -->
 <config>
@@ -17,9 +17,9 @@
                         <children>
                             <config>
                                 <children>
-                                    <aydus_addressvalidator translate="title">
-                                        <title>Address Validator Settings</title>
-                                    </aydus_addressvalidator>
+                                    <extensions_store_storealerts translate="title">
+                                        <title>Store Alerts Settings</title>
+                                    </extensions_store_storealerts>
                                 </children>
                             </config>
                         </children>
