@@ -1,0 +1,16 @@
+{
+    "name": "extensions-store/store-alerts",
+    "type": "magento-module",
+    "description": "Store Alerts Magento module",
+    "require": {
+        "php": ">=5.3",
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "authors": [
+        {
+            "name": "Extensions Store",
+            "email": "admin@extensions-store.com",
+            "role": "Author/Maintainer"
+        }
+    ]
+}

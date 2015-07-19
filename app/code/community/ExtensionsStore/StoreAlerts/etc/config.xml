@@ -31,6 +31,18 @@
             </storealerts>
         </routers>          
     </frontend>
+    <crontab>
+        <jobs>
+            <storealerts_push>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>extensions_store_storealerts/cron::pushAlerts</model>
+                </run>
+            </storealerts_push>
+        </jobs>
+    </crontab>    
     <global>
         <helpers>
             <extensions_store_storealerts>
@@ -43,7 +55,16 @@
         <models>
             <extensions_store_storealerts>
                 <class>ExtensionsStore_StoreAlerts_Model</class>
+                <resourceModel>extensions_store_storealerts_resource</resourceModel>
             </extensions_store_storealerts>
+            <extensions_store_storealerts_resource>
+                <class>ExtensionsStore_StoreAlerts_Model_Resource</class>
+                <entities>
+                    <device>
+                        <table>extensions_store_storealerts_device</table>
+                    </device>                    
+                </entities>
+            </extensions_store_storealerts_resource>		            
         </models>
         <resources>
             <extensions_store_storealerts_setup>
