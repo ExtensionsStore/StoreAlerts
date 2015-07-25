@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>0.1.0</version>
+            <version>0.2.0</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>
@@ -29,7 +29,18 @@
                     <frontName>storealerts</frontName>
                 </args>
             </storealerts>
-        </routers>          
+        </routers>   
+        <events>
+        	<sales_order_place_after>
+        		<observers>
+        			<storealerts_observer>
+                        <type>singleton</type>
+                        <class>storealerts/observer</class>
+                        <method>newOrderAlert</method>        			
+        			</storealerts_observer>
+        		</observers>
+        	</sales_order_place_after>
+        </events>       
     </frontend>
     <crontab>
         <jobs>
@@ -44,6 +55,14 @@
         </jobs>
     </crontab>    
     <global>
+        <blocks>
+            <extensions_store_storealerts>
+                <class>ExtensionsStore_StoreAlerts_Block</class>
+            </extensions_store_storealerts>
+            <storealerts>
+                <class>ExtensionsStore_StoreAlerts_Block</class>
+            </storealerts>
+        </blocks> 
         <helpers>
             <extensions_store_storealerts>
                 <class>ExtensionsStore_StoreAlerts_Helper</class>
@@ -57,12 +76,19 @@
                 <class>ExtensionsStore_StoreAlerts_Model</class>
                 <resourceModel>extensions_store_storealerts_resource</resourceModel>
             </extensions_store_storealerts>
+            <storealerts>
+                <class>ExtensionsStore_StoreAlerts_Model</class>
+                <resourceModel>extensions_store_storealerts_resource</resourceModel>
+            </storealerts>            
             <extensions_store_storealerts_resource>
                 <class>ExtensionsStore_StoreAlerts_Model_Resource</class>
                 <entities>
                     <device>
                         <table>extensions_store_storealerts_device</table>
                     </device>                    
+                    <alert>
+                        <table>extensions_store_storealerts_alert</table>
+                    </alert>                    
                 </entities>
             </extensions_store_storealerts_resource>		            
         </models>

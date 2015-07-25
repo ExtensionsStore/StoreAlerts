@@ -7,7 +7,7 @@
  * @author      Extensions Store <admin@extensions-store.com>
  */
 
-class ExtensionsStore_StoreAlerts_Model_Resource_Device_Collection 
+class ExtensionsStore_StoreAlerts_Model_Resource_Alert_Collection 
     extends Mage_Core_Model_Resource_Db_Collection_Abstract 
 {
 
@@ -15,7 +15,7 @@ class ExtensionsStore_StoreAlerts_Model_Resource_Device_Collection
     {
         parent::_construct();
         
-        $this->_init('extensions_store_storealerts/device');
+        $this->_init('extensions_store_storealerts/alert');
     }
 
 }

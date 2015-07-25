@@ -11,7 +11,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
 {
     protected $_url = 'http://api.extensions-store.com/push';
     
-    public function push($deviceToken, $accessToken, $message, $sound = null)
+    public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
     {
         $data = array(
             'domain' => $_SERVER['HTTP_HOST'],
@@ -20,6 +20,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
             'access_token' => $accessToken,
             'message' => $message,
             'sound' => $sound,
+        	'email' => $email,
             );
         $dataStr = json_encode($data);
         
@@ -49,7 +50,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         $decoded = json_decode($response);
                 
         if (@$decoded->error === false){
-            return $decoded;
+            return true;
         }
         
         return false;

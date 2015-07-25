@@ -46,7 +46,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[Secure HTTPS is not required for debug mode. Also enables logging.]]></comment>
-                        </debug_mode>                                                   
+                        </debug_mode>  
+                        <alerts translate="label comment">
+                            <label>Select Alerts</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>extensions_store_storealerts/system_config_source_alerts</source_model>
+                            <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_field_alerts</frontend_model>                            
+                            <backend_model>extensions_store_storealerts/system_config_backend_alerts</backend_model>                            
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select alerts to receive.]]></comment>
+                        </alerts>                                                 
                     </fields>
                 </configuration>
             </groups>

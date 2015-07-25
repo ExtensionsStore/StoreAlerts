@@ -19,7 +19,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
      * @param string $registerToken
      * @return array
      */
-    public function register($deviceToken, $username, $password, $accessToken = null) {
+    public function register($deviceToken, $username, $password, $accessToken = "") {
         
         $result = array();
 
@@ -33,9 +33,9 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
 
                 if ($result['error'] === false) {
                     
-                    $registrationToken = $result['data'];
+                    $accessToken = $result['data'];
                     
-                    if ($registrationToken){
+                    if ($accessToken){
                         
                         $result = $this->_registerAdmin($deviceToken, $accessToken);
                         
