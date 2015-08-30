@@ -47,10 +47,10 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         
         curl_close($ch);
         
-        $decoded = json_decode($response);
+        $decoded = json_decode($response, true);
                 
-        if (@$decoded->error === false){
-            return true;
+        if (isset($decoded['error'])){
+            return $decoded;
         }
         
         return false;

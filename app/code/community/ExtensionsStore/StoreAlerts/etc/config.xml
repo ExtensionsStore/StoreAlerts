@@ -20,6 +20,17 @@
             </modules>
         </suite>
     </phpunit>       
+	<admin>
+	    <routers>
+	        <adminhtml>
+	            <args>
+	                <modules>
+	                    <ExtensionsStore_StoreAlerts before="Mage_Adminhtml">ExtensionsStore_StoreAlerts_Adminhtml</ExtensionsStore_StoreAlerts>
+	                </modules>
+	            </args>
+	        </adminhtml>
+	    </routers>
+	</admin>
     <frontend>
         <routers>
             <storealerts>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- 
 /** 
- * Addressvalidator system config
+ * Store Alerts system config
  *
  * @category    ExtensionsStore
  * @package     ExtensionsStore_StoreAlerts
@@ -58,7 +58,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[Select alerts to receive.]]></comment>
-                        </alerts>                                                 
+                        </alerts>   
+                        <test_alert translate="label comment">
+                            <label>Test Alert</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_button</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Test sending an alert to your device.]]></comment>
+                        </test_alert>                                                                          
                     </fields>
                 </configuration>
             </groups>
