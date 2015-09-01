@@ -25,4 +25,18 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
     
+    /**
+     *
+     * @param string $username
+     * @param string $password
+     * @return array
+     */
+    public function login($username, $password) {
+
+    	$admin = Mage::getModel('admin/user');
+    	$admin->login($username, $password);
+        
+    	return $admin;
+    }    
+    
 }

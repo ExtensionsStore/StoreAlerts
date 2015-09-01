@@ -11,10 +11,8 @@
 $installer = $this;
 $installer->startSetup();
 
-$consumer = Mage::getModel('oauth/consumer');
+/*$consumer = Mage::getModel('oauth/consumer');
 $consumer->load('Store Alerts', 'name');
-
-
 
 if (!$consumer->getId()) {
 
@@ -37,6 +35,6 @@ if (!$consumer->getId()) {
 
         Mage::log($e->getMessage(), null, 'extensions_store_storealerts.log');
     }
-}
+}*/
 
 $installer->endSetup();

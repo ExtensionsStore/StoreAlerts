@@ -75,13 +75,12 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
      * 
      * @param string $username
      * @param string $password
-     * @param string $deviceToken
      * @return array
      */
     protected function _login($username, $password) {
         $result = array();
-        $admin = Mage::getModel('admin/user');
-        $admin->login($username, $password);
+
+        $admin = Mage::helper('storealerts')->login($username, $password);
 
         if ($admin->getId()) {
             
