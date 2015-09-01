@@ -51,6 +51,15 @@
         			</storealerts_observer>
         		</observers>
         	</sales_order_place_after>
+        	<controller_action_postdispatch_contacts_index_post>
+        		<observers>
+        			<storealerts_observer>
+                        <type>singleton</type>
+                        <class>storealerts/observer</class>
+                        <method>contactAlert</method>        			
+        			</storealerts_observer>
+        		</observers>        	
+        	</controller_action_postdispatch_contacts_index_post>
         </events>       
     </frontend>
     <crontab>
