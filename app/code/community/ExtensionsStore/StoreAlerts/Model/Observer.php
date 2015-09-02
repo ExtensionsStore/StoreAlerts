@@ -45,60 +45,9 @@ class ExtensionsStore_StoreAlerts_Model_Observer
     	$message = trim($message);
     	$message .= '. Message: ' .$post['comment'];
     	 
-    	$this->_saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::CONTACT, $message);
+    	$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::CONTACT, $message);
     
     	return $observer;
     }    
-    
-    /**
-     * Register alert for each subscriber
-     * 
-     * @param string $type
-     * @param string $message
-     */
-    protected function _saveAlert($type, $message)
-    {
-    	try {
-    		
-    		$devices = Mage::getModel('storealerts/device')->getCollection();
-    		
-    		foreach ($devices as $device){
-    			
-    			$alertsStr = trim($device->getAlerts());
-    			$selectedAlerts = explode(',', $alertsStr);
-    			
-    			if (is_array($selectedAlerts) && in_array($type, $selectedAlerts)){
-    				
-    				$alertIndex = array_search($type, $selectedAlerts);
-    				
-    				$soundsStr = trim($device->getSounds());
-    				$alertSounds = explode(',', $soundsStr);
-    				$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ? 
-    					$alertSounds[$alertIndex] : 'default';
-    				$userId = $device->getUserId();
-    				
-    				$datetime = date('Y-m-d H:i:s');
-    				 
-    				$alert = Mage::getModel('storealerts/alert');
-    				$alert->setMessage($message);
-    				$alert->setSound($sound);
-    				$alert->setUserId($userId);
-    				$alert->setSent(0);
-    				$alert->setCreatedAt($datetime);
-    				$alert->setUpdatedAt($datetime);
-    				$alert->save();
-    				
-    			}
-    			 
-    		}
-    		
-    		
-    	}catch(Exception $e){
-    		
-            Mage::helper('storealerts')->log($e->getMessage());
-    	}
-    	 
-    }
-    
     
 }

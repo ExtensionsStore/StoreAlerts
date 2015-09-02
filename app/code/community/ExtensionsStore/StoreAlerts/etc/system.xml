@@ -33,8 +33,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                             <comment><![CDATA[If No, no store alerts will be sent.]]></comment>
                         </enabled>  
                         <debug_mode translate="label comment">
@@ -43,8 +43,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                             <comment><![CDATA[Secure HTTPS is not required for debug mode. Also enables logging.]]></comment>
                         </debug_mode>  
                         <alerts translate="label comment">
@@ -55,15 +55,35 @@
                             <backend_model>extensions_store_storealerts/system_config_backend_alerts</backend_model>                            
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                             <comment><![CDATA[Select alerts to receive.]]></comment>
-                        </alerts>   
+                        </alerts> 
+                        <notification_severity translate="label comment">
+                            <label>Notification Severity</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensions_store_storealerts/system_config_source_severity</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If subscribng to admin notifications, specify minimum notification severity.]]></comment>
+                        </notification_severity>                           
+                        <mark_notification_read translate="label comment">
+                            <label>Mark Notification as read</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If subscribng to admin notifications, mark admin notification as read.]]></comment>
+                        </mark_notification_read>                            
                         <test_alert translate="label comment">
                             <label>Test Alert</label>
                             <frontend_type>button</frontend_type>
                             <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_button</frontend_model>
-                            <sort_order>30</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>

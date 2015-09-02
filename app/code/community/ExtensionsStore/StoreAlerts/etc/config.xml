@@ -64,14 +64,22 @@
     </frontend>
     <crontab>
         <jobs>
-            <storealerts_push>
+            <storealerts_push_alerts>
                 <schedule>
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>extensions_store_storealerts/cron::pushAlerts</model>
                 </run>
-            </storealerts_push>
+            </storealerts_push_alerts>
+            <storealerts_check_notifications>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>extensions_store_storealerts/cron::checkNotifications</model>
+                </run>
+            </storealerts_check_notifications>            
         </jobs>
     </crontab>    
     <global>
@@ -127,6 +135,8 @@
         <extensions_store_storealerts>
             <configuration>
                 <enabled>1</enabled>
+                <notification_severity>2</notification_severity>
+                <mark_notification_read>1</mark_notification_read>
             </configuration>
         </extensions_store_storealerts>
     </default>
