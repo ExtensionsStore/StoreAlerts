@@ -129,7 +129,12 @@
                     <use>core_setup</use>
                 </connection>
             </extensions_store_storealerts_setup>
-        </resources>           
+        </resources>   
+ 		<log>
+        	<core>
+            	<writer_model>ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream</writer_model>
+        	</core>
+    	</log>                
     </global> 
     <default>
         <extensions_store_storealerts>
@@ -137,6 +142,7 @@
                 <enabled>1</enabled>
                 <notification_severity>2</notification_severity>
                 <mark_notification_read>1</mark_notification_read>
+                <log_level>3</log_level>
             </configuration>
         </extensions_store_storealerts>
     </default>

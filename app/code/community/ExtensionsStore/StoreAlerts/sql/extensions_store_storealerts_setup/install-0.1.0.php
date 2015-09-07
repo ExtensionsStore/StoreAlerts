@@ -24,6 +24,7 @@ $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storea
 $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storealerts_alert')} (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NOT NULL,
+  `label` VARCHAR(255) NOT NULL,
   `message` VARCHAR(255) NOT NULL,
   `sound` VARCHAR(255) NOT NULL,
   `user_id` INT(11) NOT NULL,

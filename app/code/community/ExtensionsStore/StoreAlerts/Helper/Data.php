@@ -50,6 +50,9 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     	try {
     
     		$devices = Mage::getModel('storealerts/device')->getCollection();
+    		$types = Mage::getModel('storealerts/alert');
+    		$label = $types[$type]['label'];
+    		$title = $types[$type]['title'];
     
     		foreach ($devices as $device){
     			 
@@ -69,6 +72,9 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     				$datetime = date('Y-m-d H:i:s');
     					
     				$alert = Mage::getModel('storealerts/alert');
+    				$alert->setType($type);
+    				$alert->setLabel($label);
+    				$alert->setType($type);
     				$alert->setMessage($message);
     				$alert->setSound($sound);
     				$alert->setUserId($userId);

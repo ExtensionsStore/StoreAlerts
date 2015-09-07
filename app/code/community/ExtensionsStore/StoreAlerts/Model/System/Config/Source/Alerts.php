@@ -22,9 +22,9 @@ class ExtensionsStore_StoreAlerts_Model_System_Config_Source_Alerts extends Vari
         
         $helper = Mage::helper('storealerts');
         
-        foreach ($types as $value => $label){
+        foreach ($types as $value => $type){
             
-            $label = $helper->__($label);
+            $label = $helper->__($type['label']);
             
             $alerts[] = array('value' => $value, 'label' => $label);
         }

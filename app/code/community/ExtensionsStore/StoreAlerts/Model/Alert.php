@@ -12,13 +12,13 @@ class ExtensionsStore_StoreAlerts_Model_Alert extends Mage_Core_Model_Abstract
 	const NEW_ORDER = 'new_order';
 	const CONTACT = 'contact';
 	const NOTIFICATION = 'notification';
-	const ERROR = 'error';
+	const LOG = 'log';
 	
 	protected $_types = array(
-			self::NEW_ORDER => 'New Order',
-			self::CONTACT => 'Contact',
-	        self::NOTIFICATION => 'Admin Notifications',
-			self::ERROR => 'System Error',
+			self::NEW_ORDER => array('label' => 'New Orders', 'title' => 'New Order'),
+			self::CONTACT => array('label' => 'Contacts', 'title' => 'Contact'),
+	        self::NOTIFICATION => array('label' => 'Admin Notifications', 'title' => 'Notification'),
+			self::LOG => array('label' => 'Log Messages', 'title'=> 'Log Message'),
 	);
 	
 	/**

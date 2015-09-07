@@ -29,10 +29,10 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     			
  		$data = array();
     			
-    	foreach($types as $type=>$label){
+    	foreach($types as $type=>$typeAr){
     		$data[] = array(
     			'type' => $type,
-    			'label' => $label,
+    			'label' => $typeAr['label'],
     			'selected' => in_array($type, $alerts)
     		);
     	}
@@ -110,9 +110,28 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     		$fromDateFormatted = date('Y-m-d',$fromDateTS);
     		$collection->addFieldToFilter('date_created', array('gt' => $fromDateFormatted));
     	}
-    			 
+    	$collection->setOrder('created_at','DESC');
+    	
+    	$data = array(
+    			'totalRecords' => $collection->getSize()
+    	);
+    	
+    	$dates = array();
+    	
+    	foreach ($collection as $alert){
+    		
+    		$createdAt = $alert->getCreatedAt();
+    		$createdAtTime = strtotime($createdAt);
+    		$date = date('Y-m-d', $createdAtTime);
+    		
+    		$dates[$date][] = $alert->getData();
+    		
+    	}
+    	
+    	$data['dates'] = $dates;
+    	 
     	$result['error'] = false;
-    	$result['data'] = $collection->toArray();
+    	$result['data'] = $data;
     	
     	return $result;
     }
