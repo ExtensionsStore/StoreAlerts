@@ -12,12 +12,15 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 	{
 		if (Mage::helper ( 'storealerts' )->isDebug () || Mage::app ()->getStore()->isCurrentlySecure ()) {
 				
-			if ($data = $this->getRequest ()->getPost ()) {
+			if ($data = $this->getRequest ()->getPost()) {
+				
+				$dataObj = new Varien_Object();
+				$dataObj->setData($data);
 		
-				$deviceToken = @$data ['device_token'];
-				$username = @$data ['username'];
-				$password = @$data ['password'];
-				$accessToken = ($requireAccessToken) ? @$data ['access_token'] : true;
+				$deviceToken = $dataObj->getDeviceToken();
+				$username = $dataObj->getUsername();
+				$password = $dataObj->getPassword();
+				$accessToken = ($requireAccessToken) ? $dataObj->getAccessToken() : true;
 		
 				if ($deviceToken && $username && $password && $accessToken) {
 					
@@ -30,8 +33,6 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 						
 						if ($admin->getId() && $admin->getId() == $device->getUserId()){
 						
-							$dataObj = new Varien_Object();
-							$dataObj->setData($data);
 							$dataObj->setDevice($device);
 						
 							$result['error'] = false;
@@ -148,6 +149,27 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 			$device = $dataObj->getDevice();
 			$result = $device->getAlertsArray();
 				
+		}
+		
+		$this->getResponse()->clearHeaders()->setHeader ( 'Content-type', 'application/json', true )->setBody ( Mage::helper ( 'core' )->jsonEncode ( $result ) );
+	}
+	
+	/**
+	 * 
+	 */
+	public function deleteAlertAction()
+	{
+		$result = array();
+		
+		$result = $this->_checkPost();
+		
+		if ($result['error'] === false){
+		
+			$dataObj = $result['data'];
+			$alertId = $dataObj->getAlertId();
+			$device = $dataObj->getDevice();
+			$result = $device->deleteAlert($alertId);
+		
 		}
 		
 		$this->getResponse()->clearHeaders()->setHeader ( 'Content-type', 'application/json', true )->setBody ( Mage::helper ( 'core' )->jsonEncode ( $result ) );

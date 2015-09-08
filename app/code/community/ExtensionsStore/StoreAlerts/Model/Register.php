@@ -41,14 +41,8 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
                         
                         if ($result['error'] === false){
                             
-                            $consumer = Mage::getModel('oauth/consumer');
-                            $consumer->load('Store Alerts', 'name');
-
                             $result['data'] = array(
                                 'access_token' => $accessToken,
-                                'consumer_key' => $consumer->getKey(),
-                                'consumer_secret' => $consumer->getSecret(),
-                                'callback_url' => $consumer->getCallbackUrl()
                             );                             
                         } 
                         
