@@ -24,30 +24,41 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 		
 				if ($deviceToken && $username && $password && $accessToken) {
 					
-					$device = Mage::getModel ( 'extensions_store_storealerts/device' );
-					$device->load ( $deviceToken, 'device_token' );
+					$admin = Mage::helper('storealerts')->login($username, $password);
 					
-					if ($device->getId()){
+					if ($admin->getId()){
 						
-						$admin = Mage::helper('storealerts')->login($username, $password);
-						
-						if ($admin->getId() && $admin->getId() == $device->getUserId()){
-						
+						try {
+							
+							$device = Mage::getModel ( 'extensions_store_storealerts/device' );
+							$device->load ($deviceToken, 'device_token');
+							
+							if (!$device->getId()){
+								
+								$datetime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+									
+								$device->setDeviceToken($deviceToken)
+									->setUserId($admin->getId())
+									->setCreatedAt($datetime)
+									->setUpdatedAt($datetime)
+									->save();
+							}
+							
 							$dataObj->setDevice($device);
-						
+							
 							$result['error'] = false;
 							$result['data'] = $dataObj;
 						
-						} else {
-						
+						} catch (Exception $e){
+							
 							$result ['error'] = true;
-							$result ['data'] = 'Could not login admin.';
-						}			
+							$result ['data'] = $e->getMessage();
+						}							
 						
 					} else {
 						
 						$result['error'] = true;
-						$result['data'] = 'Could not load device user';
+						$result['data'] = 'Could not login admin';
 					}
 						
 				} else {

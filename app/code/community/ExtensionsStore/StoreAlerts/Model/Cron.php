@@ -15,6 +15,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
      */
     public function pushAlerts($schedule)
     {
+    	Mage::log('Push alerts'. date('Y-m-d H:i:s'),3);
 		$numPushed = 0;
     	$devices = Mage::getModel('storealerts/device')->getCollection();
     	$push = Mage::getSingleton('storealerts/push');
@@ -58,6 +59,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
      */
     public function checkNotifications($schedule)
     {
+    	Mage::log('Check notifications '. date('Y-m-d H:i:s'),3);
     	$numNotifications = 0;
     	$severity = Mage::getStoreConfig('extensions_store_storealerts/configuration/notification_severity');
     	$markNotificationRead = Mage::getStoreConfig('extensions_store_storealerts/configuration/mark_notification_read');

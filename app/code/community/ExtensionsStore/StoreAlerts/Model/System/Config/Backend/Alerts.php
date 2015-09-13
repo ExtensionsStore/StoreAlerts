@@ -32,7 +32,7 @@ class ExtensionsStore_StoreAlerts_Model_System_Config_Backend_Alerts
         	$device->save();
         	 
         } catch(Exception $e){
-        	$message = $ex->getMessage();
+        	$message = $e->getMessage();
         	Mage::helper('storealerts')->log($message);        	
         }
         
