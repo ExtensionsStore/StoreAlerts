@@ -46,7 +46,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[Secure HTTPS is not required for debug mode. Also enables logging.]]></comment>
-                        </debug_mode>  
+                        </debug_mode>                  
                         <alerts translate="label comment">
                             <label>Select Alerts</label>
                             <frontend_type>multiselect</frontend_type>

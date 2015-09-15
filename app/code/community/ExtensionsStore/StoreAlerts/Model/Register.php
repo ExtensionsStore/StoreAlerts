@@ -9,7 +9,7 @@
 class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstract {
 
     protected $_admin;
-    protected $_url = 'http://api.extensions-store.com/register';
+    protected $_url = 'https://api.extensions-store.com/register';
 
     /**
      * 
