@@ -9,7 +9,7 @@
 
 class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
 {
-    protected $_url = 'http://api.extensions-store.com/push';
+    protected $_url = 'https://api.extensions-store.com/push';
     
     public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
     {
