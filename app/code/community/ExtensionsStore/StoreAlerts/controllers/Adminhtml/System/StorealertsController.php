@@ -28,7 +28,7 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
     	$push = Mage::getSingleton('storealerts/push');
     	$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
     	 
-		if (!$result['error']){
+		if (isset($result['error']) && !$result['error']){
 			
 			$message = Mage::helper('storealerts')->__('Test alert has been sent to your device.');
 		     

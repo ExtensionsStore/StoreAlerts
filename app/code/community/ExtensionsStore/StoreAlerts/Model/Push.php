@@ -14,6 +14,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
     public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
     {
     	$helper = Mage::helper('storealerts');
+    	$result = array();
         $data = array(
             'domain' => $_SERVER['HTTP_HOST'],
             'app' => 'Store Alerts',
@@ -35,7 +36,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         
         $url = $helper->getApiUrl().$this->_endPoint;
         
-        curl_setopt($ch, CURLOPT_URL, $this->_url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
         curl_setopt($ch, CURLOPT_VERBOSE, true);
         curl_setopt($ch, CURLOPT_STDERR, $fp);
@@ -48,15 +49,18 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
 
         $response = curl_exec($ch);
         
-        curl_close($ch);
-        
         $decoded = json_decode($response, true);
                 
-        if (isset($decoded['error'])){
+        if ($decoded && isset($decoded['error'])){
             return $decoded;
         }
         
-        return false;
+        $result['error'] = true;
+        $result['data'] = curl_error($ch);
+        
+        curl_close($ch);
+        
+        return $result;
         
     }    
     
