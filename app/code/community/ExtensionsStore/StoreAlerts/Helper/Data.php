@@ -45,7 +45,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getApiUrl()
     {
-    	if (preg_match('/local\./', $_SERVER['HTTP_HOST'])){
+    	if (preg_match('/local\./', @$_SERVER['HTTP_HOST'])){
     		return 'http://local.api.extensions-store.com';
     	}else {
     		return 'https://api.extensions-store.com';
@@ -58,7 +58,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getApiHost()
     {
-    	if (preg_match('/local\./', $_SERVER['HTTP_HOST'])){
+    	if (preg_match('/local\./', @$_SERVER['HTTP_HOST'])){
     		return 'local.api.extensions-store.com';
     	}else {
     		return 'api.extensions-store.com';
