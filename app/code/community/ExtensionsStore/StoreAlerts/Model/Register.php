@@ -9,7 +9,7 @@
 class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstract {
 
     protected $_admin;
-    protected $_url = 'https://api.extensions-store.com/register';
+    protected $_endPoint = '/register';
 
     /**
      * 
@@ -100,6 +100,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
     protected function _registerDeviceToken($deviceToken, $accessToken = null) {
         
         $result = array();
+        $helper = Mage::helper('storealerts');
         
         $data = array('email' => $this->_admin->getEmail(),
             'firstname' => $this->_admin->getFirstname(),
@@ -114,12 +115,14 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
         $ch = curl_init();
         $fp = fopen('var/log/extensions_store_storealerts.log', 'w+');
         $headers = array(
-            'Host: api.extensions-store.com',
+            'Host: '.$helper->getApiHost(),
             'Content-Type: application/json',
             'Content-Length: ' . strlen($dataStr),
         );
+        
+        $url = $helper->getApiUrl().$this->_endPoint;
 
-        curl_setopt($ch, CURLOPT_URL, $this->_url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
         curl_setopt($ch, CURLOPT_VERBOSE, true);
         curl_setopt($ch, CURLOPT_STDERR, $fp);

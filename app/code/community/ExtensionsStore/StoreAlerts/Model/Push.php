@@ -9,7 +9,7 @@
 
 class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
 {
-    protected $_url = 'https://api.extensions-store.com/push';
+    protected $_endPoint = '/push';
     
     public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
     {
@@ -27,10 +27,12 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         $ch = curl_init();
         $fp = fopen('var/log/extensions_store_storealerts.log','w+');
         $headers = array(
-            'Host: api.extensions-store.com',
+            'Host: '.$helper->getApiHost(),
             'Content-Type: application/json',
             'Content-Length: ' . strlen($dataStr),
             );
+        
+        $url = $helper->getApiUrl().$this->_endPoint;
         
         curl_setopt($ch, CURLOPT_URL, $this->_url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');

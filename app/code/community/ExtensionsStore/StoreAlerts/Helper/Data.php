@@ -40,6 +40,32 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     }    
     
     /**
+     * 
+     * @return string
+     */
+    public function getApiUrl()
+    {
+    	if (preg_match('/local\./', $_SERVER['HTTP_HOST'])){
+    		return 'http://local.api.extensions-store.com';
+    	}else {
+    		return 'https://api.extensions-store.com';
+    	}
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getApiHost()
+    {
+    	if (preg_match('/local\./', $_SERVER['HTTP_HOST'])){
+    		return 'local.api.extensions-store.com';
+    	}else {
+    		return 'api.extensions-store.com';
+    	}    	
+    }
+    
+    /**
      * Register alert for each subscriber
      *
      * @param string $type
