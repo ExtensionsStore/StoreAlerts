@@ -105,7 +105,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
         $data = array('email' => $this->_admin->getEmail(),
             'firstname' => $this->_admin->getFirstname(),
             'lastname' => $this->_admin->getLastname(),
-            'domain' => $_SERVER['HTTP_HOST'],
+            'domain' => $helper->getDomain(),
             'app' => 'Store Alerts',
             'device_token' => $deviceToken,
             'access_token' => $accessToken,

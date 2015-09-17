@@ -16,7 +16,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
     	$helper = Mage::helper('storealerts');
     	$result = array();
         $data = array(
-            'domain' => $_SERVER['HTTP_HOST'],
+            'domain' => $helper->getDomain(),
             'app' => 'Store Alerts',
             'device_token' => $deviceToken,
             'access_token' => $accessToken,

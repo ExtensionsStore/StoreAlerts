@@ -65,6 +65,27 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     	}    	
     }
     
+    public function getDomain()
+    {
+    	$domain = '';
+    	
+    	if (isset($_SERVER['HTTP_HOST'])){
+    		
+    		$domain = $_SERVER['HTTP_HOST'];
+    		
+    	} else {
+    		
+    		$baseUrl = Mage::getBaseUrl (Mage_Core_Model_Store::URL_TYPE_WEB);   
+    		$urlPartsAr = parse_url($baseUrl);
+    		
+    		if (isset($urlPartsAr['host'])){
+    			$domain = $urlPartsAr['host'];
+    		}
+    	}
+    	
+    	return $domain;
+    }
+    
     /**
      * Register alert for each subscriber
      *
