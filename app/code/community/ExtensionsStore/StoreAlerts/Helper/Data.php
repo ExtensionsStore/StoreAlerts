@@ -116,7 +116,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     				$alertSounds[$alertIndex] : 'default';
     				$userId = $device->getUserId();
     
-    				$datetime = date('Y-m-d H:i:s');
+    				$datetime = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
     					
     				$alert = Mage::getModel('storealerts/alert');
     				$alert->setType($type);
