@@ -9,23 +9,31 @@
  */
 -->
 <config>
-    <acl>
-        <resources>
-            <admin>
-                <children>
-                    <system>
-                        <children>
-                            <config>
-                                <children>
-                                    <extensions_store_storealerts translate="title">
-                                        <title>Store Alerts Settings</title>
-                                    </extensions_store_storealerts>
-                                </children>
-                            </config>
-                        </children>
-                    </system>
-                </children>
-            </admin>
-        </resources>
-    </acl>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<storealerts translate="title" module="storealerts">
+								<title>Store Alerts</title>
+								<sort_order>300</sort_order>
+							</storealerts>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+	<menu>
+		<system>
+			<children>
+				<storealerts translate="title" module="storealerts">
+					<sort_order>20</sort_order>
+					<title>Store Alerts</title>
+					<action>adminhtml/alert</action>
+				</storealerts>
+			</children>
+		</system>
+	</menu>
 </config>

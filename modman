@@ -1,2 +1,4 @@
-app/code/community/ExtensionsStore/StoreAlerts/          app/code/community/ExtensionsStore/StoreAlerts/
-app/etc/modules/ExtensionsStore_StoreAlerts.xml          app/etc/modules/ExtensionsStore_StoreAlerts.xml
+app/code/community/ExtensionsStore/StoreAlerts                                  app/code/community/ExtensionsStore/StoreAlerts
+app/design/adminhtml/default/default/layout/extensions_store/storealerts.xml    app/design/adminhtml/default/default/layout/extensions_store/storealerts.xml
+app/design/adminhtml/default/default/template/extensions_store/storealerts      app/design/adminhtml/default/default/template/extensions_store/storealerts
+app/etc/modules/ExtensionsStore_StoreAlerts.xml                                 app/etc/modules/ExtensionsStore_StoreAlerts.xml

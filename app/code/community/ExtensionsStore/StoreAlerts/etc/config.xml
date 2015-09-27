@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>0.6.0</version>
+            <version>0.7.0</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>
@@ -31,6 +31,15 @@
 	        </adminhtml>
 	    </routers>
 	</admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <extensions_store_storealerts>
+                    <file>extensions_store/storealerts.xml</file>
+                </extensions_store_storealerts>
+            </updates>
+        </layout>
+    </adminhtml>		
     <frontend>
         <routers>
             <storealerts>

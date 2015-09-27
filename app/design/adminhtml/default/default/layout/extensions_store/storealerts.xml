@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Adminhtml layout
+ *
+ * @category    ExtensionsStore
+ * @package     ExtensionsStore_StoreAlerts
+ * @author      Extensions Store <admin@extensions-store.com>
+ */
+--> 
+<layout>
+
+    <!-- Grid -->
+    <adminhtml_alert_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>system/storealerts</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="storealerts/adminhtml_alert" name="alert" />
+        </reference>
+    </adminhtml_alert_index>
+    <adminhtml_alert_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="storealerts/adminhtml_alert_grid" name="alert_grid"/>
+        </block>
+    </adminhtml_alert_grid>
+    
+    <!-- View -->
+    <adminhtml_alert_view>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>system/storealerts</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="storealerts/adminhtml_alert_view" name="alert_view"></block>
+        </reference>
+        <reference name="left">
+            <block type="storealerts/adminhtml_alert_view_tabs" name="alert_view_tabs">
+                <!-- Visitor info -->
+                <block type="storealerts/adminhtml_alert_view_tab_info" name="alert_info" template="extensions_store/storealerts/alert/view/tab/info.phtml" />
+                <action method="addTab">
+                    <name>Alert Info</name>
+                    <block>alert_info</block>
+                </action>
+            </block>        
+        </reference>
+    </adminhtml_alert_view>
+    
+</layout>

@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * View alert info template
+ *
+ * @category    ExtensionsStore
+ * @package     ExtensionsStore_StoreAlerts
+ * @author      Extensions Store <admin@extensions-store.com>
+ */
+ 
+
+$alert = $this->getAlert();
+?>
+
+<div class="entry-edit">
+    <div class="entry-edit-head"><h4 class="icon-head "><?php echo $this->__('Alert Info') ?></h4></div>
+    <fieldset>
+        <table cellspacing="2">
+            <tr>
+                <td width="100px"><strong><?php echo $this->__('Alert Type:') ?></strong></td>
+                <td><?php echo $alert->getLabel() ?></td>
+            </tr>
+            <tr>
+                <td><strong><?php echo $this->__('Title:') ?></strong></td>
+                <td><?php echo $alert->getTitle() ?></td>
+            </tr>
+            <tr>
+                <td><strong><?php echo $this->__('Message:') ?></strong></td>
+                <td><?php echo $alert->getMessage() ?></td>
+            </tr>
+            <tr>
+                <td><strong><?php echo $this->__('Date Time:') ?></strong></td>
+                <td><?php echo date('F j, Y g:i a',Mage::getModel('core/date')->timestamp($alert->getCreatedAt())) ?></td>
+            </tr>
+        </table>
+    </fieldset> 
+
+</div> 
