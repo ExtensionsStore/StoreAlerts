@@ -15,10 +15,17 @@
 				<children>
 					<system>
 						<children>
+                            <config>
+                                <children>
+                                    <extensions_store_storealerts translate="title">
+                                        <title>Store Alerts Settings</title>
+                                    </extensions_store_storealerts>
+                                </children>
+                            </config>
 							<storealerts translate="title" module="storealerts">
 								<title>Store Alerts</title>
 								<sort_order>300</sort_order>
-							</storealerts>
+							</storealerts>							
 						</children>
 					</system>
 				</children>
