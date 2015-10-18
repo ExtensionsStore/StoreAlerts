@@ -26,6 +26,8 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_Alert_Grid extends Mage_Adminh
 		$user = Mage::getSingleton('admin/session')->getUser();
 		$userId = $user->getId();
 		$collection->addFieldToFilter('user_id', $userId);
+		$collection->setOrder('created_at','DESC');
+		
 		$this->setCollection($collection);
 		parent::_prepareCollection();
 		return $this;

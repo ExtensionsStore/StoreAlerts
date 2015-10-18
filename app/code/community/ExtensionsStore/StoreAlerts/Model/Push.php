@@ -9,7 +9,7 @@
 
 class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
 {
-    protected $_endPoint = '/push';
+    protected $_endPoint = '/alert';
     
     public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
     {
