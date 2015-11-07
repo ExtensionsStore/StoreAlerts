@@ -31,7 +31,7 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 						try {
 							
 							$device = Mage::getModel ( 'extensions_store_storealerts/device' );
-							$device->load ($deviceToken, 'device_token');
+							$device->load ($admin->getId(), 'user_id');
 							
 							if (!$device->getId()){
 								
@@ -42,6 +42,10 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 									->setCreatedAt($datetime)
 									->setUpdatedAt($datetime)
 									->save();
+							}
+							
+							if ($device->getDeviceToken() != $deviceToken){
+								$device->setDeviceToken($deviceToken)->save();
 							}
 							
 							$dataObj->setDevice($device);
@@ -158,7 +162,9 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 				
 			$dataObj = $result['data'];
 			$device = $dataObj->getDevice();
-			$result = $device->getAlertsArray();
+			$page = (int)$this->getRequest()->getParam('page');
+			$limit = (int)$this->getRequest()->getParam('limit');
+			$result = $device->getAlertsArray($page, $limit);
 				
 		}
 		

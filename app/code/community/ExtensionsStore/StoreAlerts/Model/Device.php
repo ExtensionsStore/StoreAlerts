@@ -119,9 +119,11 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     /**
      * Get alerts for this device
      * 
-     * @param string $fromDate
+     * @param int $page
+     * @param int $limit
+     * 
      */
-    public function getAlertsArray($fromDate = null)
+    public function getAlertsArray($page = 1, $limit = 20)
     {
     	$result = array();
     	
@@ -131,12 +133,9 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     		
     		$collection = Mage::getModel('extensions_store_storealerts/alert')->getCollection();
     		$collection->addFieldToFilter('user_id', $userId);
-    		$fromDateTS = strtotime($fromDate);
-    		if ($fromDateTS){
-    			$fromDateFormatted = date('Y-m-d',$fromDateTS);
-    			$collection->addFieldToFilter('date_created', array('gt' => $fromDateFormatted));
-    		}
     		$collection->setOrder('created_at','DESC');
+    		$collection->setPageSize($limit);
+    		$collection->setCurPage($page);
     		 
     		$data = array(
     				'totalRecords' => $collection->getSize()

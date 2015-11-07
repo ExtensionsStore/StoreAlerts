@@ -18,7 +18,8 @@ $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storea
   `sounds` TEXT NOT NULL,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
-  PRIMARY KEY ( `id` )
+  PRIMARY KEY ( `id` ),
+  UNIQUE KEY ( `user_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storealerts_alert')} (
