@@ -42,6 +42,10 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
 		$this->_redirect('adminhtml/system_config/edit', array('section'=>'extensions_store_storealerts'));		
 	}
 	
-
+	protected function _isAllowed()
+	{
+		return Mage::getSingleton('admin/session')
+		->isAllowed('system/storealerts');
+	}
 
 }
