@@ -31,11 +31,12 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 						try {
 							
 							$device = Mage::getModel ( 'extensions_store_storealerts/device' );
-							$device->load ($admin->getId(), 'user_id');
+							$device->load ($deviceToken, 'device_token');
 							
 							if (!$device->getId()){
 								
-								$datetime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+								$datetime = date("Y-m-d H:i:s", 
+										Mage::getModel('core/date')->timestamp(time()));
 									
 								$device->setDeviceToken($deviceToken)
 									->setUserId($admin->getId())
@@ -43,11 +44,7 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 									->setUpdatedAt($datetime)
 									->save();
 							}
-							
-							if ($device->getDeviceToken() != $deviceToken){
-								$device->setDeviceToken($deviceToken)->save();
-							}
-							
+														
 							$dataObj->setDevice($device);
 							
 							$result['error'] = false;
