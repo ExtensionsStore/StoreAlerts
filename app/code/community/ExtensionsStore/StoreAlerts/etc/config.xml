@@ -123,6 +123,9 @@
                     <device>
                         <table>extensions_store_storealerts_device</table>
                     </device>                    
+                    <preference>
+                        <table>extensions_store_storealerts_preference</table>
+                    </preference>                    
                     <alert>
                         <table>extensions_store_storealerts_alert</table>
                     </alert>                    

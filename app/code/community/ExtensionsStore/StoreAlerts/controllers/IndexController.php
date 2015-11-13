@@ -30,14 +30,26 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 						
 						try {
 							
+							$datetime = date("Y-m-d H:i:s",
+									Mage::getModel('core/date')->timestamp(time()));
+							
+							$preference = Mage::getModel ( 'extensions_store_storealerts/preference' );
+							$preference->load($admin->getId());
+							
+							if (!$preference->getId()){
+								$preference->setUserId($admin->getId())
+								->setCreatedAt($datetime)
+								->setUpdatedAt($datetime)
+								->save();
+							}
+							
+							$dataObj->setPreference($preference);
+							
 							$device = Mage::getModel ( 'extensions_store_storealerts/device' );
 							$device->load ($deviceToken, 'device_token');
 							
 							if (!$device->getId()){
 								
-								$datetime = date("Y-m-d H:i:s", 
-										Mage::getModel('core/date')->timestamp(time()));
-									
 								$device->setDeviceToken($deviceToken)
 									->setUserId($admin->getId())
 									->setCreatedAt($datetime)
@@ -122,8 +134,8 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 		if ($result['error'] === false){
 				
 			$dataObj = $result['data'];
-			$device = $dataObj->getDevice();			
-			$result = $device->getPreferences();
+			$preference = $dataObj->getPreference();			
+			$result = $preference->getPreferences();
 		}
 		
 		$this->getResponse()->clearHeaders()->setHeader ( 'Content-type', 'application/json', true )->setBody ( Mage::helper ( 'core' )->jsonEncode ( $result ) );
@@ -138,9 +150,9 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 		if ($result['error'] === false){
 		
 			$dataObj = $result['data'];
-			$device = $dataObj->getDevice();
-				
-			$result = $device->updatePreferences($dataObj);
+			$preference = $dataObj->getPreference();			
+			
+			$result = $preference->updatePreferences($dataObj);
 		}
 		
 		$this->getResponse()->clearHeaders()->setHeader ( 'Content-type', 'application/json', true )->setBody ( Mage::helper ( 'core' )->jsonEncode ( $result ) );

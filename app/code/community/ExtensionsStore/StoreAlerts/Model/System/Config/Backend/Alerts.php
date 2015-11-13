@@ -21,15 +21,15 @@ class ExtensionsStore_StoreAlerts_Model_System_Config_Backend_Alerts
         try {
         	
         	$adminUser = Mage::getSingleton('admin/session')->getUser();
-        	$device = Mage::getModel('extensions_store_storealerts/device');
-        	$device->load($adminUser->getId(), 'user_id');
+        	$preference = Mage::getModel('extensions_store_storealerts/preference');
+        	$preference->load($adminUser->getId());
         	
         	$alerts = $this->getValue();
         	$datetime = date('Y-m-d H:i:s');
         	 
-        	$device->setAlerts($alerts);
-        	$device->setUpdatedAt($datetime);
-        	$device->save();
+        	$preference->setAlerts($alerts);
+        	$preference->setUpdatedAt($datetime);
+        	$preference->save();
         	 
         } catch(Exception $e){
         	$message = $e->getMessage();
