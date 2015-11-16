@@ -172,7 +172,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
         try {
             
             $device = Mage::getModel('extensions_store_storealerts/device');
-            $device->load($this->_admin->getId(), 'user_id');
+            $device->load($deviceToken, 'device_token');
             $datetime = date('Y-m-d H:i:s');
 
             if (!$device->getId()) {
