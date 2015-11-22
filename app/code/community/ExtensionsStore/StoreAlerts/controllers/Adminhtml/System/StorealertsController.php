@@ -18,7 +18,7 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
     	$userId = $user->getUserId();
     	
     	$collection = Mage::getModel('storealerts/device')->getCollection();
-    	$collection->addFieldToFilter($userId, 'user_id');
+    	$collection->addFieldToFilter('user_id', $userId);
     	$errorMessages = array();
     	
     	foreach ($collection as $device){
