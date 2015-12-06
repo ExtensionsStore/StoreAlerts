@@ -21,10 +21,10 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_System_Config_Form_Field_Alert
 	protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
 	{
 		$adminUser = Mage::getSingleton('admin/session')->getUser();
-		$device = Mage::getModel('extensions_store_storealerts/device');
-		$device->load($adminUser->getId(), 'user_id');
+		$preference = Mage::getModel ( 'extensions_store_storealerts/preference' );
+		$preference->load($adminUser->getId());
 		
-		$alerts = ($device->getId()) ? $device->getAlerts() : '';
+		$alerts = ($preference->getId()) ? $preference->getAlerts() : '';
 		
 		$element->setValue($alerts);
 		
