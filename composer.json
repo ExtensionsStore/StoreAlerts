@@ -1,5 +1,5 @@
 {
-    "name": "extensions-store/store-alerts-ext",
+    "name": "extensions-store/store-alerts",
     "type": "magento-module",
     "description": "Store Alerts Magento module",
     "require": {
