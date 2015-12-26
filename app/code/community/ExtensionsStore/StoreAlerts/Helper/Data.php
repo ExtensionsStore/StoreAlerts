@@ -19,7 +19,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function log($message, $level=null)
     {
-        if ($this->isDebug()){
+        if ($this->isDebug() || (int)$level < 4){
             
             Mage::log($message, $level, 'extensions_store_storealerts.log');
         }
@@ -137,7 +137,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     
     	} catch(Exception $e){
     
-    		$this->log($e->getMessage());
+    		$this->log($e->getMessage(), 3);
     	}
     
     }    
