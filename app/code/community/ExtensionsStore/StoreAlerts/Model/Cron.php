@@ -42,7 +42,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     			
     			if ($result){
     				$numPushed++;
-    				$datetime = date('Y-m-d H:i:s');
+    				$datetime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
     				$alert->setSent(1)->setUpdatedAt($datetime)->save();
     			}
     		}    		
