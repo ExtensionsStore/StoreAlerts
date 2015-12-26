@@ -22,7 +22,7 @@ class ExtensionsStore_StoreAlerts_Model_Observer
     	$grandTotal = Mage::helper('core')->currency($order->getGrandTotal(), true, false);
     	$message = $helper->__('New order: '). $grandTotal;
     	
-    	$this->_saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::NEW_ORDER, $message);
+    	$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::NEW_ORDER, $message);
         
         return $observer;
     }   
