@@ -102,8 +102,12 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     		$title = $types[$type]['title'];
     
     		foreach ($devices as $device){
+    			
+    			$adminId = $device->getUserId();
+    			$preference = Mage::getModel ( 'extensions_store_storealerts/preference' );
+    			$preference->load($adminId);
     			 
-    			$alertsStr = trim($device->getAlerts());
+    			$alertsStr = trim($preference->getAlerts());
     			$selectedAlerts = explode(',', $alertsStr);
     			 
     			if (is_array($selectedAlerts) && in_array($type, $selectedAlerts)){
