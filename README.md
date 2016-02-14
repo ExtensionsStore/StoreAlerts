@@ -5,8 +5,8 @@ Coming soon to the iOS App Store.
 
 Description
 -----------
-<img src="md/app.png" width="50px"/>  Our app alerts you to errors on your website. When an error occurs on your website, 
-it'll be logged for your review in the admin:
+<img src="md/app.png" width="50px"/>  Our app alerts you to errors and other events on your website. 
+When an error occurs on your website, it'll be logged for your review in your admin:
 
 <img src="md/grid.png" />
 
