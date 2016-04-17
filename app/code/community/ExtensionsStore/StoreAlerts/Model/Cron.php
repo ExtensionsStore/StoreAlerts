@@ -79,7 +79,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				
     			$message = $notification->getTitle();
     				
-    			$helper->saveAlert($notificationCode, $message);
+    			$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::NOTIFICATION, $message);
     			
     			if ($markNotificationRead){
     				$notification->setIsRead(1)->save();
