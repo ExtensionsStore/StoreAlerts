@@ -41,21 +41,15 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
     protected function _write($event)
     {
     	if ($this->_log){
-    		$line = $this->_formatter->format($event);
     		
-    		$format = explode(' ', $line);
-    		$timestamp = $format[0];
-    		$priorityName = $format[1];
-    		$priority = $format[2];
-    		
-    		$priority = str_replace(array('(',')',':'), '', $priority);
-    		$priority = (int)$priority;
+    		$priority = (int)$event['priority'];
+    		$message = $event['message'];
     		
     		$logLevel = (int)Mage::getStoreConfig('extensions_store_storealerts/configuration/log_level');
     		
     		if ($priority && $priority <= $logLevel){
     			
-    			Mage::helper('storealerts')->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $line);
+    			Mage::helper('storealerts')->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $message);
     		}
     	}
         
