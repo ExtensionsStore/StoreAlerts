@@ -1,12 +1,12 @@
-Store Alerts
+Store Alerts 
 ============
 Receive notifications from your Magento website on your mobile device. 
 Coming soon to the iOS App Store.
 
 Description
 -----------
-Our app alerts you to errors on your website. When an error occurs on your website, 
-it'll be logged for your review in the admin:
+<img src="md/app.png" width="50px"/>  Our app alerts you to errors and other events on your website. 
+When an error occurs on your website, it'll be logged for your review in your admin:
 
 <img src="md/grid.png" />
 

@@ -28,6 +28,9 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
      */
     public function getAlertsArray($page = 1, $limit = 20)
     {
+    	if (!$limit){
+    		$limit = 20;
+    	}
     	$result = array();
     	
     	if ($this->getId()){
