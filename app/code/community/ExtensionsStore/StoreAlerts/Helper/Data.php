@@ -96,44 +96,45 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     {
     	try {
     
-    		$devices = Mage::getModel('storealerts/device')->getCollection();
+    		$preferences = Mage::getModel('storealerts/preference')->getCollection();
     		$types = Mage::getModel('storealerts/alert')->getTypes();
     		$label = $types[$type]['label'];
     		$title = $types[$type]['title'];
     
-    		foreach ($devices as $device){
+    		foreach ($preferences as $preference){
     			
-    			$adminId = $device->getUserId();
-    			$preference = Mage::getModel ( 'extensions_store_storealerts/preference' );
-    			$preference->load($adminId);
-    			 
-    			$alertsStr = trim($preference->getAlerts());
-    			$selectedAlerts = explode(',', $alertsStr);
-    			 
-    			if (is_array($selectedAlerts) && in_array($type, $selectedAlerts)){
-    
-    				$alertIndex = array_search($type, $selectedAlerts);
-    
-    				$soundsStr = trim($device->getSounds());
-    				$alertSounds = explode(',', $soundsStr);
-    				$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ?
-    				$alertSounds[$alertIndex] : 'default';
-    				$userId = $device->getUserId();
-    
-    				$datetime = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
-    					
-    				$alert = Mage::getModel('storealerts/alert');
-    				$alert->setType($type);
-    				$alert->setLabel($label);
-    				$alert->setTitle($title);
-    				$alert->setMessage($message);
-    				$alert->setSound($sound);
-    				$alert->setUserId($userId);
-    				$alert->setSent(0);
-    				$alert->setCreatedAt($datetime);
-    				$alert->setUpdatedAt($datetime);
-    				$alert->save();
-    
+    			$userId = $preference->getId();
+    			$admin = Mage::getModel('admin/user')->load($userId);
+    			
+    			if ($admin->getId()){
+	    			 
+	    			$alertsStr = trim($preference->getAlerts());
+	    			$selectedAlerts = explode(',', $alertsStr);
+	    			 
+	    			if (is_array($selectedAlerts) && in_array($type, $selectedAlerts)){
+	    
+	    				$alertIndex = array_search($type, $selectedAlerts);
+	    
+	    				$soundsStr = trim($preference->getSounds());
+	    				$alertSounds = explode(',', $soundsStr);
+	    				$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ?
+	    				$alertSounds[$alertIndex] : 'default';
+	    
+	    				$datetime = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
+	    					
+	    				$alert = Mage::getModel('storealerts/alert');
+	    				$alert->setType($type);
+	    				$alert->setLabel($label);
+	    				$alert->setTitle($title);
+	    				$alert->setMessage($message);
+	    				$alert->setSound($sound);
+	    				$alert->setUserId($userId);
+	    				$alert->setSent(0);
+	    				$alert->setCreatedAt($datetime);
+	    				$alert->setUpdatedAt($datetime);
+	    				$alert->save();
+	    
+	    			}
     			}
     
     		}
