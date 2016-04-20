@@ -92,7 +92,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $type
      * @param string $message
      */
-    public function saveAlert($type, $message)
+    public function saveAlert($type, $message, $title = null)
     {
     	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG){
     		$alerts = Mage::getModel('storealerts/alert')->getCollection();
@@ -110,7 +110,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     		$preferences = Mage::getModel('storealerts/preference')->getCollection();
     		$types = Mage::getModel('storealerts/alert')->getTypes();
     		$label = $types[$type]['label'];
-    		$title = $types[$type]['title'];
+    		$title = ($title) ? $title : $types[$type]['title'];
     		$userIds = $preferences->getAllIds();
     		$admins = Mage::getModel('admin/user')->getCollection();
     		$admins->addFieldToFilter('is_active', 1);
@@ -135,7 +135,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     					$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ?
     					$alertSounds[$alertIndex] : 'default';
     				
-    					$datetime = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
+    					$datetime = date('Y-m-d H:i:s');
     						
     					$alert = Mage::getModel('storealerts/alert');
     					$alert->setType($type);
