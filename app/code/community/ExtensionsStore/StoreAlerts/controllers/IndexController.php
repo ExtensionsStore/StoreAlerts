@@ -30,8 +30,7 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 						
 						try {
 							
-							$datetime = date("Y-m-d H:i:s",
-									Mage::getModel('core/date')->timestamp(time()));
+							$datetime = date("Y-m-d H:i:s");
 							
 							$preference = Mage::getModel ( 'extensions_store_storealerts/preference' );
 							$preference->load($admin->getId());

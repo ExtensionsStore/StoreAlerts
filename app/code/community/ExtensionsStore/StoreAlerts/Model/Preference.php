@@ -89,7 +89,7 @@ class ExtensionsStore_StoreAlerts_Model_Preference extends Mage_Core_Model_Abstr
     		 
     		try {
     
-    			$datetime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+    			$datetime = date("Y-m-d H:i:s");
     
     			if (!$this->getId()){
     				$this->setCreatedAt($datetime);

@@ -42,7 +42,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     			
     			if ($result){
     				$numPushed++;
-    				$datetime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+    				$datetime = date("Y-m-d H:i:s");
     				$alert->setSent(1)->setUpdatedAt($datetime)->save();
     			}
     		}    		
@@ -66,7 +66,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     	$notifications->addFieldToFilter('is_read',0);
     	$notifications->addFieldToFilter('is_remove',0);
     	$notifications->addFieldToFilter('severity',array('lteq' => $severity));
-    	$today = date("Y-m-d", Mage::getModel('core/date')->timestamp(time()));
+    	$today = date("Y-m-d");
     	$notifications->addFieldToFilter('date_added',array('gteq' => $today));
     	
     	//$selectStr = (string)$notifications->getSelect();

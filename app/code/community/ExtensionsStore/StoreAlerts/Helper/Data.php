@@ -91,13 +91,14 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $type
      * @param string $message
+     * @param string $title
      */
     public function saveAlert($type, $message, $title = null)
     {
     	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG){
     		$alerts = Mage::getModel('storealerts/alert')->getCollection();
     		$alerts->addFieldToFilter('message', $message);
-    		$today = date('Y-m-d', Mage::getModel('core/date')->timestamp(time()));
+    		$today = date('Y-m-d');
     		$alerts->addFieldToFilter('created_at', array('gteq' => $today));
     		 
     		if ($alerts->getSize() > 0){
