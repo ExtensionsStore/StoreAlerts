@@ -44,7 +44,8 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
     		
     		$priority = (int)$event['priority'];
     		$message = $event['message'];
-    		$title = substr($message,0,80);
+    		$title = trim(substr($message,0,40));
+    		$title .= (strlen($message)>40) ? '...' : '';
     		
     		$logLevel = (int)Mage::getStoreConfig('extensions_store_storealerts/configuration/log_level');
     		

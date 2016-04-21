@@ -53,7 +53,8 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     		
     			$createdAt = $alert->getCreatedAt();
     			$createdAtTime = strtotime($createdAt);
-    			$date = date('Y-m-d', $createdAtTime);
+    			$createdAtTimestamp = Mage::getModel('core/date')->timestamp($createdAtTime);
+    			$date = date('Y-m-d', $createdAtTimestamp);
     		
     			$dates[$date][] = $alert->getData();
     		
