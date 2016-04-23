@@ -10,7 +10,7 @@
 --> 
 <layout>
 
-    <!-- Grid -->
+    <!-- Alert Grid -->
     <adminhtml_alert_index>
         <reference name="menu">
             <action method="setActive">
@@ -27,7 +27,7 @@
         </block>
     </adminhtml_alert_grid>
     
-    <!-- View -->
+    <!-- Alert View -->
     <adminhtml_alert_view>
         <reference name="menu">
             <action method="setActive">
@@ -39,7 +39,7 @@
         </reference>
         <reference name="left">
             <block type="storealerts/adminhtml_alert_view_tabs" name="alert_view_tabs">
-                <!-- Visitor info -->
+                <!-- Alert info -->
                 <block type="storealerts/adminhtml_alert_view_tab_info" name="alert_info" template="extensions_store/storealerts/alert/view/tab/info.phtml" />
                 <action method="addTab">
                     <name>Alert Info</name>
@@ -48,5 +48,44 @@
             </block>        
         </reference>
     </adminhtml_alert_view>
+    
+    <!-- Device Grid -->
+    <adminhtml_device_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>system/storealerts/device</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="storealerts/adminhtml_device" name="device" />
+        </reference>
+    </adminhtml_device_index>
+    <adminhtml_device_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="storealerts/adminhtml_device_grid" name="device_grid"/>
+        </block>
+    </adminhtml_device_grid>
+    
+    <!-- Device Edit -->
+    <adminhtml_device_edit>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>system/storealerts</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="storealerts/adminhtml_device_edit" name="device_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="storealerts/adminhtml_device_edit_tabs" name="device_edit_tabs">
+                <!-- Device detail -->
+                <block type="storealerts/adminhtml_device_edit_tab_detail" name="device_detail" />
+                <action method="addTab">
+                    <name>Device Detail</name>
+                    <block>device_detail</block>
+                </action>
+            </block>        
+        </reference>
+    </adminhtml_device_edit>    
     
 </layout>
