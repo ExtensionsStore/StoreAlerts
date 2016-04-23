@@ -39,6 +39,18 @@
 					<sort_order>20</sort_order>
 					<title>Store Alerts</title>
 					<action>adminhtml/alert</action>
+					<children>
+						<alerts translate="title">
+							<sort_order>10</sort_order>
+							<title>Alerts</title>
+							<action>adminhtml/alert</action>
+						</alerts>					
+						<devices translate="title">
+							<sort_order>20</sort_order>
+							<title>Devices</title>
+							<action>adminhtml/device</action>
+						</devices>					
+					</children>
 				</storealerts>
 			</children>
 		</system>

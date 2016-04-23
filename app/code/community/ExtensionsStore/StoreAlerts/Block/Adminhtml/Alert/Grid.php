@@ -14,7 +14,7 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_Alert_Grid extends Mage_Adminh
 	{
 		parent::__construct();
 		$this->setId('storealerts_grid');
-		$this->setDefaultSort('increment_id');
+		$this->setDefaultSort('id');
 		$this->setDefaultDir('DESC');
 		$this->setSaveParametersInSession(true);
 		$this->setUseAjax(true);

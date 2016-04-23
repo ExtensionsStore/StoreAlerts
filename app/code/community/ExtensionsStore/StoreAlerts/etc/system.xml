@@ -67,7 +67,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment><![CDATA[If subscribng to admin notifications, specify minimum notification severity.]]></comment>
+                            <comment><![CDATA[If subscribing to admin notifications, specify minimum notification severity.]]></comment>
                         </notification_severity>                           
                         <mark_notification_read translate="label comment">
                             <label>Mark Notification as read</label>
@@ -88,12 +88,30 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[Levels lower and equal to the selected level will be alerted.]]></comment>
-                        </log_level>                                                      
+                        </log_level>   
+                        <duplicate_log_limit translate="label comment">
+                            <label>Duplicate Log Limit Per Day</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Limit of log duplicates per day.]]></comment>
+                        </duplicate_log_limit>   
+                        <duplicate_log_length translate="label comment">
+                            <label>Duplicate Log Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Left length of log message in determining duplication.]]></comment>
+                        </duplicate_log_length>                                                                                                      
                         <test_alert translate="label comment">
                             <label>Test Alert</label>
                             <frontend_type>button</frontend_type>
                             <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_button</frontend_model>
-                            <sort_order>60</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>

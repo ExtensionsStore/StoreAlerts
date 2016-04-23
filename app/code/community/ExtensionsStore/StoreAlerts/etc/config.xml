@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>0.8.0</version>
+            <version>0.9.0</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>
@@ -155,6 +155,8 @@
                 <notification_severity>2</notification_severity>
                 <mark_notification_read>1</mark_notification_read>
                 <log_level>3</log_level>
+                <duplicate_log_limit>5</duplicate_log_limit>
+                <duplicate_log_length>255</duplicate_log_length>
             </configuration>
         </extensions_store_storealerts>
     </default>

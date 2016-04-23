@@ -33,7 +33,7 @@ $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storea
   `type` VARCHAR(20) NOT NULL,
   `label` VARCHAR(255) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `message` VARCHAR(255) NOT NULL,
+  `message` TEXT NOT NULL,
   `sound` VARCHAR(255) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `sent` TINYINT(1) NOT NULL DEFAULT '0',

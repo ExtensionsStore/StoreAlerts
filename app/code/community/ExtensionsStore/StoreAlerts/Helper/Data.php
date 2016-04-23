@@ -97,11 +97,14 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     {
     	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG){
     		$alerts = Mage::getModel('storealerts/alert')->getCollection();
-    		$alerts->addFieldToFilter('message', $message);
+    		$length = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_length');
+    		$alerts->addFieldToFilter(new Zend_Db_Expr("LEFT(message,$length)"), substr($message,0,$length));
     		$today = date('Y-m-d');
     		$alerts->addFieldToFilter('created_at', array('gteq' => $today));
-    		 
-    		if ($alerts->getSize() > 0){
+    		$limit = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_limit');
+    		$size = $alerts->getSize();
+    		$sql = (string)$alerts->getSelect();
+    		if ($size >= $limit){
     			return;
     		}    		
     	}
