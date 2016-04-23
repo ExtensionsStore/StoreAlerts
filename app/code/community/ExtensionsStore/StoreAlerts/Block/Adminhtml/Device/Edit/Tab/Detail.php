@@ -1,7 +1,7 @@
 <?php
 
 /**
- * View alert info tab
+ * Edit device form fields tab
  *
  * @category    ExtensionsStore
  * @package     ExtensionsStore_StoreAlerts

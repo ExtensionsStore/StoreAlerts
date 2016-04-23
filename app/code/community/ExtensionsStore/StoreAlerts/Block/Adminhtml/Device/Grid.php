@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Store Alerts admin
+ * Store Alerts device grid
  *
  * @category    ExtensionsStore
  * @package     ExtensionsStore_StoreAlerts
