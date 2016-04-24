@@ -34,6 +34,11 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_Device_Grid extends Mage_Admin
 				'header' => $helper->__ ( 'ID' ),
 				'index' => 'id' 
 		) );
+
+		$this->addColumn ( 'name', array (
+				'header' => $helper->__ ( 'Device Name' ),
+				'index' => 'name'
+		) );
 		
 		$this->addColumn ( 'device_token', array (
 				'header' => $helper->__ ( 'Device Token' ),

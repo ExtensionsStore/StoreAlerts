@@ -11,6 +11,7 @@ $this->startSetup();
 
 $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storealerts_device')} (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
   `device_token` VARCHAR(255) NOT NULL,
   `access_token` VARCHAR(255) NOT NULL,
   `user_id` INT(11) NOT NULL,

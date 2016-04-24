@@ -18,6 +18,7 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 				$dataObj->setData($data);
 		
 				$deviceToken = $dataObj->getDeviceToken();
+				$name = $dataObj->getName();
 				$username = $dataObj->getUsername();
 				$password = $dataObj->getPassword();
 				$accessToken = ($requireAccessToken) ? $dataObj->getAccessToken() : true;
@@ -49,7 +50,8 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 							
 							if (!$device->getId()){
 								
-								$device->setDeviceToken($deviceToken)
+								$device->setName($name)
+									->setDeviceToken($deviceToken)
 									->setUserId($admin->getId())
 									->setCreatedAt($datetime)
 									->setUpdatedAt($datetime)
@@ -113,6 +115,7 @@ class ExtensionsStore_StoreAlerts_IndexController extends Mage_Core_Controller_F
 			$dataObj = $result['data'];
 				
 			$result = $registerModel->register($dataObj->getDeviceToken(), 
+					$dataObj->getName(), 
 					$dataObj->getUsername(), 
 					$dataObj->getPassword(), 
 					$dataObj->getAccessToken());

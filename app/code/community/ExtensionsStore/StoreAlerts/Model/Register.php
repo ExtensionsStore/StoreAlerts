@@ -19,7 +19,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
      * @param string $registerToken
      * @return array
      */
-    public function register($deviceToken, $username, $password, $accessToken = "") {
+    public function register($deviceToken, $name, $username, $password, $accessToken = "") {
         
         $result = array();
 
@@ -37,7 +37,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
                     
                     if ($accessToken){
                         
-                        $result = $this->_registerAdmin($deviceToken, $accessToken);
+                        $result = $this->_registerAdmin($deviceToken, $accessToken, $name);
                         
                         if ($result['error'] === false){
                             
@@ -163,9 +163,11 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
     /**
      * 
      * @param string $deviceToken
+     * @param string $accessToken
+     * @param string $name
      * @return array
      */
-    protected function _registerAdmin($deviceToken, $accessToken)
+    protected function _registerAdmin($deviceToken, $accessToken, $name)
     {
         $result = array();
         
@@ -180,6 +182,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
                 $device->setCreatedAt($datetime);
             }
 
+            $device->setName($name);
             $device->setDeviceToken($deviceToken);
             $device->setAccessToken($accessToken);
             $device->setUserId($this->_admin->getId());

@@ -24,6 +24,13 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_Device_Edit_Form extends Mage_
 				'name' => 'id' 
 		) );
 		
+		$fieldset->addField ( 'name', 'text', array (
+				'label' => $this->helper ( 'storealerts' )->__ ( 'Device Name' ),
+				'name' => 'name',
+				'required' => false
+		) );
+		
+		
 		$fieldset->addField ( 'device_token', 'text', array (
 				'label' => $this->helper ( 'storealerts' )->__ ( 'Device Token' ),
 				'name' => 'device_token',
