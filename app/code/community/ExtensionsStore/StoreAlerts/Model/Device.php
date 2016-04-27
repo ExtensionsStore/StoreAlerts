@@ -94,8 +94,10 @@ class ExtensionsStore_StoreAlerts_Model_Device extends Mage_Core_Model_Abstract
     				 
     				if ($alertModel->getUserId() == $this->getUserId()){
     		
+    					$title = $alertModel->getTitle();
     					$alertModel->delete();
-    					$result = $this->getAlertsArray();
+    					$result['error'] = false;
+    					$result['data'] = "Alert $alertId $title deleted";
     		
     				} else {
     		
