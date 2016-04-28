@@ -21,10 +21,13 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
 	 */
 	public function __construct($streamOrUrl, $mode = null)
 	{
-		$file = Mage::getStoreConfig('dev/log/file');
-		$exceptionFile = Mage::getStoreConfig('dev/log/exception_file');
+		$logFiles = explode(PHP_EOL, Mage::getStoreConfig('extensions_store_storealerts/configuration/log_files'));
+		$logFiles[] = Mage::getStoreConfig('dev/log/file');
+		$logFiles[] = Mage::getStoreConfig('dev/log/exception_file');
 		
-		if (is_numeric(strpos($streamOrUrl, $file)) || is_numeric(strpos($streamOrUrl, $exceptionFile))){
+		$logFile = basename($streamOrUrl);
+		
+		if (in_array($logFile, $logFiles)){
 			$this->_log = true;
 		}
 		
