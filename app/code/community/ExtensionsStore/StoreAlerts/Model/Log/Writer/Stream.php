@@ -47,6 +47,59 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
     		
     		$priority = (int)$event['priority'];
     		$message = trim($event['message']);
+    		$exploded = explode(":",$message);
+    		$type = $exploded[0];
+    		
+    		if ($type){
+    			$type = trim($type);
+    			switch($type){
+    				case "Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "Warning":
+    					$priority = Zend_Log::WARN;
+    					break;
+    				case "Parse Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "Notice":
+    					$priority = Zend_Log::NOTICE;
+    					break;
+    				case "Core Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "Core Warning":
+    					$priority = Zend_Log::WARN;
+    					break;
+    				case "Compile Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "Compile Warning":
+    					$priority = Zend_Log::WARN;
+    					break;
+    				case "User Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "User Warning":
+    					$priority = Zend_Log::WARN;
+    					break;
+    				case "User Notice":
+    					$priority = Zend_Log::NOTICE;
+    					break;
+    				case "Strict Notice":
+    					$priority = Zend_Log::DEBUG;
+    					break;
+    				case "Recoverable Error":
+    					$priority = Zend_Log::ERR;
+    					break;
+    				case "Deprecated functionality":
+    					$priority = Zend_Log::DEBUG;
+    					break;
+    				default:
+    					break;
+    			}
+    		}
+    		
     		$title = trim(substr($message,0,80));
     		$title .= (strlen($message)>80) ? '...' : '';
     		
