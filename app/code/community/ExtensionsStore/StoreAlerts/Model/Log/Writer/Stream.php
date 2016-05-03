@@ -47,6 +47,21 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
     		
     		$priority = (int)$event['priority'];
     		$message = trim($event['message']);
+    		$exception = substr($message,0,9);
+			if ($exception == 'exception'){
+				$matches = array();
+				preg_match_all("/'([^']+)'/",$message, $matches);
+				if (count($matches) == 2){
+					$quotedStrings = $matches[1];
+					if (is_array($quotedStrings) && count($quotedStrings)>1){
+						$exceptionType = strtolower($quotedStrings[0]);
+						$exceptionMessage = $quotedStrings[1];
+						if (is_numeric(strpos($exceptionType, 'exception')) && $exceptionMessage  ){
+							$message = $exceptionMessage;
+						}
+					}
+				}
+			}
     		$exploded = explode(":",$message);
     		$type = $exploded[0];
     		
@@ -93,6 +108,9 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
     					$priority = Zend_Log::ERR;
     					break;
     				case "Deprecated functionality":
+    					$priority = Zend_Log::DEBUG;
+    					break;
+    				case "Payment authorization error" :
     					$priority = Zend_Log::DEBUG;
     					break;
     				default:
