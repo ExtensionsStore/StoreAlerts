@@ -57,12 +57,12 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
 						$exceptionType = strtolower($quotedStrings[0]);
 						$exceptionMessage = $quotedStrings[1];
 						if (is_numeric(strpos($exceptionType, 'exception')) && $exceptionMessage  ){
-							$message = $exceptionMessage;
+							$exceptionMsg = $exceptionMessage;
 						}
 					}
 				}
 			}
-    		$exploded = explode(":",$message);
+    		$exploded = ($exceptionMsg) ? explode(":",$exceptionMsg) : explode(":",$message);
     		$type = $exploded[0];
     		
     		if ($type){
