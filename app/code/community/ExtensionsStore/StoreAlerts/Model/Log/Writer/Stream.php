@@ -62,7 +62,7 @@ class ExtensionsStore_StoreAlerts_Model_Log_Writer_Stream extends Zend_Log_Write
 					}
 				}
 			}
-    		$exploded = ($exceptionMsg) ? explode(":",$exceptionMsg) : explode(":",$message);
+    		$exploded = (isset($exceptionMsg)) ? explode(":",$exceptionMsg) : explode(":",$message);
     		$type = $exploded[0];
     		
     		if ($type){
