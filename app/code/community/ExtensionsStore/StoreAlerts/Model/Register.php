@@ -29,7 +29,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
 
             if ($result['error'] === false) {
 
-                $result = $this->_registerDeviceToken($deviceToken, $accessToken);
+                $result = $this->_registerDeviceToken($deviceToken, $accessToken, $name);
 
                 if ($result['error'] === false) {
                     
@@ -97,7 +97,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
      * @param string $accessToken
      * @return array
      */
-    protected function _registerDeviceToken($deviceToken, $accessToken = null) {
+    protected function _registerDeviceToken($deviceToken, $accessToken = null, $name = null) {
         
         $result = array();
         $helper = Mage::helper('storealerts');
@@ -108,7 +108,8 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
             'domain' => $helper->getDomain(),
             'app' => 'Store Alerts',
             'device_token' => $deviceToken,
-            'access_token' => $accessToken,
+            'access_token' => ($accessToken) ? $accessToken : '' ,
+        	'name' => ($name) ? $name : '',
         );
         $dataStr = json_encode($data);
 
@@ -142,7 +143,25 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
             $result = json_decode($response, true);
 
             if (isset($result['error']) && isset($result['data'])) {
-                
+            	
+            	$device = Mage::getModel('extensions_store_storealerts/device');
+            	$device->load($deviceToken, 'device_token');
+            	$datetime = date('Y-m-d H:i:s');
+            	
+            	if (!$device->getId()) {
+            	
+            		$device->setCreatedAt($datetime);
+            	}
+            	
+                if ($name){
+            		$device->setName($name);
+            	}
+            	$device->setDeviceToken($deviceToken);
+            	$device->setAccessToken($accessToken);
+            	$device->setUserId($this->_admin->getId());
+            	$device->setUpdatedAt($datetime);
+            	
+            	$device->save();                
                 return $result;
                 
             } else {
@@ -167,7 +186,7 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
      * @param string $name
      * @return array
      */
-    protected function _registerAdmin($deviceToken, $accessToken, $name)
+    protected function _registerAdmin($deviceToken, $accessToken, $name = null)
     {
         $result = array();
         
@@ -182,7 +201,9 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
                 $device->setCreatedAt($datetime);
             }
 
-            $device->setName($name);
+            if ($name){
+            	$device->setName($name);
+            }
             $device->setDeviceToken($deviceToken);
             $device->setAccessToken($accessToken);
             $device->setUserId($this->_admin->getId());

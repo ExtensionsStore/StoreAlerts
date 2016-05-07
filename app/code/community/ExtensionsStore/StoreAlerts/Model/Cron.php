@@ -40,8 +40,9 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				foreach ($devices as $device){
     					$deviceToken = $device->getDeviceToken();
     					$accessToken = $device->getAccessToken();
-    					
-    					$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
+    					if ($deviceToken && $accessToken){
+    						$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
+    					}
     				}
     				
     				$numPushed++;
