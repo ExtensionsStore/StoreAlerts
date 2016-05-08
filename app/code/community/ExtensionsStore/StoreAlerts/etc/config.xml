@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>0.9.0</version>
+            <version>0.9.1</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>
@@ -88,7 +88,15 @@
                 <run>
                     <model>extensions_store_storealerts/cron::checkNotifications</model>
                 </run>
-            </storealerts_check_notifications>            
+            </storealerts_check_notifications>     
+            <storealerts_log_exceptions>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>extensions_store_storealerts/cron::logExceptions</model>
+                </run>
+            </storealerts_log_exceptions>                        
         </jobs>
     </crontab>    
     <global>
@@ -129,6 +137,9 @@
                     <alert>
                         <table>extensions_store_storealerts_alert</table>
                     </alert>                    
+                    <exception>
+                        <table>extensions_store_storealerts_exception</table>
+                    </exception>                    
                 </entities>
             </extensions_store_storealerts_resource>		            
         </models>

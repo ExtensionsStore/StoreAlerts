@@ -84,10 +84,11 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $type
      * @param string $message
      * @param string $title
+     * @param string $datetime
      */
-    public function saveAlert($type, $message, $title = null)
+    public function saveAlert($type, $message, $title = null, $datetime = null)
     {
-    	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG){
+    	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG || $type == ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION){
     		$alerts = Mage::getModel('storealerts/alert')->getCollection();
     		$length = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_length');
     		$alerts->addFieldToFilter(new Zend_Db_Expr("LEFT(message,$length)"), substr($message,0,$length));
@@ -131,7 +132,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     					$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ?
     					$alertSounds[$alertIndex] : 'default';
     				
-    					$datetime = date('Y-m-d H:i:s');
+    					$datetime = ($datetime) ? $datetime : date('Y-m-d H:i:s');
     						
     					$alert = Mage::getModel('storealerts/alert');
     					$alert->setType($type);
