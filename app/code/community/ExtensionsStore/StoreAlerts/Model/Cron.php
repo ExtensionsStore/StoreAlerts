@@ -122,10 +122,12 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				$content = file_get_contents($fileToLog);
     				$exceptionTime = filemtime($fileToLog);
     				$datetime = date('Y-m-d H:i:s', $exceptionTime);
-    				$exception = Mage::getModel('extensions_store_storealerts/exception');
+    				$exception = Mage::getModel('extensions_store_storealerts/exception')->load($file,'file');
+    				if (!$exception->getId()){
+    					$exception->setCreatedAt($datetime);
+    				}
     				$exception->setFile($file)
     					->setContent($content)
-    					->setCreatedAt($datetime)
     					->setUpdatedAt($datetime)
     					->save();
     				if ($exception->getId()){
