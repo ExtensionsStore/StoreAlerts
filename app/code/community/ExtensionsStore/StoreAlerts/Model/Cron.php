@@ -106,7 +106,8 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     	$numExceptions = 0;
     	$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
     	$counter = 0;
-    	$reportDir = 'var'.DS.'report';
+    	$reportDir = Mage::getBaseDir().DS.'var'.DS.'report';
+		chmod($reportDir.DS.'*',0664); 						
     	$files = scandir($reportDir);
     	$helper = Mage::helper('storealerts');
     	$currentDate = date('Y-m-d');

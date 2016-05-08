@@ -113,6 +113,11 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     		$admins->addFieldToFilter('is_active', 1);
     		$admins->addFieldToFilter('user_id', array('in' => $userIds));
     		$adminIds = $admins->getAllIds();
+    		$datetime = ($datetime) ? $datetime : date('Y-m-d H:i:s');
+    		//log for admin id 0
+    		if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG || $type == ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION){
+	    		$this->_saveAlert($type, $label, $title, $message, 'default', 0, $datetime);
+    		}
     		
     		foreach ($preferences as $preference){
     			
@@ -132,19 +137,7 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     					$sound = (is_array($alertSounds) && count($alertSounds) == count($selectedAlerts)) ?
     					$alertSounds[$alertIndex] : 'default';
     				
-    					$datetime = ($datetime) ? $datetime : date('Y-m-d H:i:s');
-    						
-    					$alert = Mage::getModel('storealerts/alert');
-    					$alert->setType($type);
-    					$alert->setLabel($label);
-    					$alert->setTitle($title);
-    					$alert->setMessage($message);
-    					$alert->setSound($sound);
-    					$alert->setUserId($userId);
-    					$alert->setSent(0);
-    					$alert->setCreatedAt($datetime);
-    					$alert->setUpdatedAt($datetime);
-    					$alert->save();
+    					$this->_saveAlert($type, $label, $title, $message, $sound, $userId, $datetime);
     				
     				}
     				
@@ -159,5 +152,30 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     	}
     
     }    
+    
+    /**
+     * 
+     * @param string $type
+     * @param string $label
+     * @param string $title
+     * @param string $message
+     * @param string $sound
+     * @param string $userId
+     * @param string $datetime
+     */
+    protected function _saveAlert($type, $label, $title, $message, $sound, $userId, $datetime){
+    	
+    	$alert = Mage::getModel('storealerts/alert');
+    	$alert->setType($type);
+    	$alert->setLabel($label);
+    	$alert->setTitle($title);
+    	$alert->setMessage($message);
+    	$alert->setSound($sound);
+    	$alert->setUserId($userId);
+    	$alert->setSent(0);
+    	$alert->setCreatedAt($datetime);
+    	$alert->setUpdatedAt($datetime);
+    	$alert->save();
+    }
     
 }
