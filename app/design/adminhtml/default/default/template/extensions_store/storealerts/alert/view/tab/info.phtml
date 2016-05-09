@@ -22,7 +22,7 @@ $alert = $this->getAlert();
             </tr>
             <tr>
                 <td><strong><?php echo $this->__('Date Time:') ?></strong></td>
-                <td><?php echo date('F j, Y g:i a',Mage::getModel('core/date')->timestamp($alert->getCreatedAt())) ?></td>
+                <td><?php echo date('F j, Y g:i a',Mage::getModel('core/date')->timestamp($alert->getUpdatedAt())) ?></td>
             </tr>
             <tr>
                 <td><strong><?php echo $this->__('Title:') ?></strong></td>

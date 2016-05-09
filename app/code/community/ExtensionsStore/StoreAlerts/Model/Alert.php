@@ -15,6 +15,9 @@ class ExtensionsStore_StoreAlerts_Model_Alert extends Mage_Core_Model_Abstract
 	const LOG = 'log';
 	const EXCEPTION = 'exception';
 	
+	const TEMPLATE_CODE = 'storealerts_email';
+	const TEMPLATE_SUBJECT = 'Store Alerts Email';
+	
 	protected $_types = array(
 			self::NEW_ORDER => array('label' => 'New Orders', 'title' => 'New Order'),
 			self::CONTACT => array('label' => 'Contacts', 'title' => 'Contact'),

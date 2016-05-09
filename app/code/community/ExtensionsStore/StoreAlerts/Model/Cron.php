@@ -18,10 +18,12 @@ class ExtensionsStore_StoreAlerts_Model_Cron
 		$numPushed = 0;
     	$push = Mage::getSingleton('storealerts/push');
     	
+    	$helper = Mage::helper('storealerts');
     	$alerts = Mage::getModel('storealerts/alert')->getCollection();
     	$alerts->addFieldToFilter('sent',0);
     	$updatedAt = date('Y-m-d H:i:s', strtotime('-1 hour')); //only push alerts generated in last hour
     	$alerts->addFieldToFilter('updated_at',array('gteq' => $updatedAt));
+    	$templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
     	
     	if ($alerts->getSize()>0){
     		
@@ -31,9 +33,27 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     			$adminUser = Mage::getModel('admin/user')->load($userId);
     			
     			if ($adminUser->getId() && $adminUser->getIsActive()){
-    				
-    				$email = $adminUser->getEmail();
+
+    				$label = $alert->getLabel();
+    				$title = $alert->getTitle();
     				$message = $alert->getMessage();
+    				$datetime = date('F j, Y g:i a',Mage::getModel('core/date')->timestamp($alert->getUpdatedAt()));
+    				
+    				$preference = Mage::getModel('storealerts/preference')->load($userId);
+    				$email = $adminUser->getEmail();
+    				$firstname = $adminUser->getFirstname();
+    				$lastname = $adminUser->getLastname();
+    				$emailName = trim($firstname.' '.$lastname);
+    				if ($preference->getEmailAlerts()){
+    					$vars = array('type' => $label, 'datetime' => $datetime, 'title' => $title, 'message' => $message, );
+    					$emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
+    					$result = $emailTemplate->send ( $email, $emailName, $vars );
+    					if (!$result){
+    						$logTitle = "Store Alerts could not send alert to email: $email name: $emailName";
+    						$logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
+    						$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
+    					}
+    				}
     				$sound = $alert->getSound();
     				$devices = Mage::getModel('storealerts/device')->getCollection();
     				$devices->addFieldToFilter('user_id',$userId);

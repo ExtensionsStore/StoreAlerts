@@ -24,7 +24,7 @@ $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storea
   `user_id` INT(11) UNSIGNED NOT NULL,
   `alerts` TEXT NOT NULL,
   `sounds` TEXT NOT NULL,
-  `email` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `email_alerts` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY ( `user_id` )

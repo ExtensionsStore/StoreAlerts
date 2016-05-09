@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>
@@ -163,6 +163,7 @@
         <extensions_store_storealerts>
             <configuration>
                 <enabled>1</enabled>
+                <email_alerts>1</email_alerts>
                 <notification_severity>2</notification_severity>
                 <mark_notification_read>1</mark_notification_read>
                 <log_level>3</log_level>

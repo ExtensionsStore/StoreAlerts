@@ -59,6 +59,18 @@
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[Select alerts to receive.]]></comment>
                         </alerts> 
+                        <email_alerts translate="label comment">
+                            <label>Receive Email Alerts</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_field_emailalerts</frontend_model>                            
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>extensions_store_storealerts/system_config_backend_emailalerts</backend_model>                            
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If yes, alerts will be sent to your administrator email.]]></comment>
+                        </email_alerts>                              
                         <notification_severity translate="label comment">
                             <label>Notification Severity</label>
                             <frontend_type>select</frontend_type>
@@ -132,4 +144,3 @@
         </extensions_store_storealerts>
     </sections>
 </config>
-
