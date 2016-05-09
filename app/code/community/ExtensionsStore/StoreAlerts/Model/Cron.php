@@ -23,9 +23,13 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     	$alerts->addFieldToFilter('sent',0);
     	$updatedAt = date('Y-m-d H:i:s', strtotime('-1 hour')); //only push alerts generated in last hour
     	$alerts->addFieldToFilter('updated_at',array('gteq' => $updatedAt));
-    	$templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
     	
     	if ($alerts->getSize()>0){
+    		
+	    	$templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
+    		$emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
+    		$emailTemplate->setSenderEmail ( Mage::getStoreConfig ( 'trans_email/ident_general/email' ) );
+    		$emailTemplate->setSenderName ( Mage::getStoreConfig ( 'trans_email/ident_general/name' ) );    		
     		
     		foreach ($alerts as $alert){
     		
@@ -41,12 +45,11 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				
     				$preference = Mage::getModel('storealerts/preference')->load($userId);
     				$email = $adminUser->getEmail();
-    				$firstname = $adminUser->getFirstname();
-    				$lastname = $adminUser->getLastname();
-    				$emailName = trim($firstname.' '.$lastname);
     				if ($preference->getEmailAlerts()){
+    					$firstname = $adminUser->getFirstname();
+    					$lastname = $adminUser->getLastname();
+    					$emailName = trim($firstname.' '.$lastname);
     					$vars = array('type' => $label, 'datetime' => $datetime, 'title' => $title, 'message' => $message, );
-    					$emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
     					$result = $emailTemplate->send ( $email, $emailName, $vars );
     					if (!$result){
     						$logTitle = "Store Alerts could not send alert to email: $email name: $emailName";
