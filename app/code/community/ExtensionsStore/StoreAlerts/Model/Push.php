@@ -48,6 +48,8 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
         $response = curl_exec($ch);
+        fclose($fp);
+        curl_close($ch);
         
         $decoded = json_decode($response, true);
                 
@@ -57,9 +59,6 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         
         $result['error'] = true;
         $result['data'] = curl_error($ch);
-        
-        curl_close($ch);
-        fclose($fp);
         
         return $result;
         
