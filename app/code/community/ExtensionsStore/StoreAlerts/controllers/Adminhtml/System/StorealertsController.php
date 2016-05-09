@@ -28,23 +28,27 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
     		
     		$deviceToken = $device->getDeviceToken();
     		$accessToken = $device->getAccessToken();
-    		$email = $user->getEmail();
-    		$message = "Test from Store Alerts";
-    		$sound = 'default';
     		
-    		$push = Mage::getSingleton('storealerts/push');
-    		$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);    
-    		
-    		if (isset($result['error'])){
+    		if ($deviceToken && $accessToken){
+    			$email = $user->getEmail();
+    			$message = "Test from Store Alerts, device:  $deviceToken access: $accessToken";
+    			$sound = 'default';
     			
-    			if ($result['error']){
-    				$errorMessages[] = $result['data'];
-    			}
+    			$push = Mage::getSingleton('storealerts/push');
+    			$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
     			
-    		} else {
-    			
-    			$errorMessages[] = 'Could not connect to '. $deviceToken;
+    			if (isset($result['error'])){
+    				 
+    				if ($result['error']){
+    					$errorMessages[] = $result['data'];
+    				}
+    				 
+    			} else {
+    				 
+    				$errorMessages[] = 'Could not connect to '. $deviceToken;
+    			}    			
     		}
+
     	}
     	 
 		if (count($errorMessages)>0) {

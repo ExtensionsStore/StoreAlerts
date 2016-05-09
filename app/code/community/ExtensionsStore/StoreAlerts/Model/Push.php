@@ -59,6 +59,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         $result['data'] = curl_error($ch);
         
         curl_close($ch);
+        fclose($fp);
         
         return $result;
         
