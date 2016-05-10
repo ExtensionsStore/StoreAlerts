@@ -70,7 +70,19 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[If yes, alerts will be sent to your administrator email.]]></comment>
-                        </email_alerts>                              
+                        </email_alerts>  
+                        <slack_hooks translate="label comment">
+                            <label>Slack Hooks</label>
+                            <frontend_type>textarea</frontend_type>
+                            <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_field_slackhooks</frontend_model>                            
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>extensions_store_storealerts/system_config_backend_slackhooks</backend_model>                            
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Slack hook urls, one per line, in order of selected alert types. Set blank line to skip an alert type. If one url for all alert types, set one url on first line.]]></comment>
+                        </slack_hooks>                                                     
                         <notification_severity translate="label comment">
                             <label>Notification Severity</label>
                             <frontend_type>select</frontend_type>

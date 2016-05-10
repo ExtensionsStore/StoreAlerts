@@ -25,6 +25,7 @@ $this->run("CREATE TABLE IF NOT EXISTS {$this->getTable('extensions_store_storea
   `alerts` TEXT NOT NULL,
   `sounds` TEXT NOT NULL,
   `email_alerts` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `slack_hooks` TEXT NOT NULL,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY ( `user_id` )

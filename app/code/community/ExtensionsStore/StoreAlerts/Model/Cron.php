@@ -29,21 +29,51 @@ class ExtensionsStore_StoreAlerts_Model_Cron
 	    	$templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
     		$emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
     		$emailTemplate->setSenderEmail ( Mage::getStoreConfig ( 'trans_email/ident_general/email' ) );
-    		$emailTemplate->setSenderName ( Mage::getStoreConfig ( 'trans_email/ident_general/name' ) );    		
+    		$emailTemplate->setSenderName ( Mage::getStoreConfig ( 'trans_email/ident_general/name' ) ); 
+    		
+    		$admins = array();
+    		$preferences = array();
     		
     		foreach ($alerts as $alert){
     		
     			$userId = $alert->getUserId();
-    			$adminUser = Mage::getModel('admin/user')->load($userId);
+    			if (!isset($admins[$userId])){
+    				$adminUser = Mage::getModel('admin/user')->load($userId);
+    				$admins[$userId] = $adminUser;
+    			} else {
+    				$adminUser = $admins[$userId];
+    			}
     			
-    			if ($adminUser->getId() && $adminUser->getIsActive()){
+    			if ($adminUser && $adminUser->getId() && $adminUser->getIsActive()){
 
+    				$type = $alert->getType();
     				$label = $alert->getLabel();
     				$title = $alert->getTitle();
     				$message = $alert->getMessage();
     				$datetime = date('F j, Y g:i a',Mage::getModel('core/date')->timestamp($alert->getUpdatedAt()));
     				
-    				$preference = Mage::getModel('storealerts/preference')->load($userId);
+    				//load preferences for this admin
+    				if (!isset($preferences[$userId])){
+    					$preference = Mage::getModel('storealerts/preference')->load($userId);
+    					if ($preference->getSlackHooks()){
+    						$slackHooks = explode(PHP_EOL,$preference->getSlackHooks());
+    						if (is_array($slackHooks) && count($slackHooks)>0 && $slackHooks[0]){
+    							$slackHooksUrls = array();
+    							$selectedAlerts = explode(',',$preference->getAlerts());
+    							foreach($selectedAlerts as $i=>$selectedAlert){
+    								$index = (count($slackHooks) == 1) ? 0 : $i;
+    								$slackHooksUrls[$selectedAlert] = $slackHooks[$index];
+    							}
+    							$preference->setSlackHookUrls($slackHooksUrls);
+    						}
+    					}
+    					$preferences[$userId] = $preference;
+    						
+    				}else {
+    					$preference = $preferences[$userId] ;
+    				}
+    				
+    				//send email alert
     				$email = $adminUser->getEmail();
     				if ($preference->getEmailAlerts()){
     					$firstname = $adminUser->getFirstname();
@@ -57,6 +87,16 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     						$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
     					}
     				}
+    				
+    				//send slack hooks
+    				if ($preference->getSlackHookUrls()){
+    					
+    					$slackHookUrls = $preference->getSlackHookUrls();
+    					$slackHookUrl = $slackHookUrls[$type];
+    					$result = $push->pushSlackHook($slackHookUrl, $message);
+    				}
+    				
+    				//send device alert
     				$sound = $alert->getSound();
     				$devices = Mage::getModel('storealerts/device')->getCollection();
     				$devices->addFieldToFilter('user_id',$userId);
@@ -73,7 +113,8 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				$datetime = date("Y-m-d H:i:s");
     				$alert->setSent(1)->setUpdatedAt($datetime)->save();
     			}
-    		}    		
+    		}   
+    		
     	}
     	
         return 'Number of alerts pushed: '.$numPushed;
