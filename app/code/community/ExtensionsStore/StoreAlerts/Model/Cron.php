@@ -65,7 +65,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     					$deviceToken = $device->getDeviceToken();
     					$accessToken = $device->getAccessToken();
     					if ($deviceToken && $accessToken){
-    						$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
+    						$result = $push->push($deviceToken, $accessToken, $email, substr($message, 0, 1900), $sound);
     					}
     				}
     				
@@ -127,52 +127,61 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     public function logExceptions($schedule){
     	
     	$numExceptions = 0;
-    	$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
-    	$counter = 0;
-    	$reportDir = Mage::getBaseDir().DS.'var'.DS.'report';
-		chmod($reportDir.DS.'*',0664); 						
-    	$files = scandir($reportDir);
-    	$helper = Mage::helper('storealerts');
-    	$currentDate = date('Y-m-d');
-    	
-    	foreach ($files as $file){
-    		try {
-    			$fileToLog = $reportDir.DS.$file;
-    			if (is_file($fileToLog)){
-    				if ($counter >= $limit){
-    					break;
-    				}
-    				$counter++;
-    				$content = file_get_contents($fileToLog);
-    				$exceptionTime = filemtime($fileToLog);
-    				$datetime = date('Y-m-d H:i:s', $exceptionTime);
-    				$exception = Mage::getModel('extensions_store_storealerts/exception')->load($file,'file');
-    				if (!$exception->getId()){
-    					$exception->setCreatedAt($datetime);
-    				}
-    				$exception->setFile($file)
-    					->setContent($content)
-    					->setUpdatedAt($datetime)
-    					->save();
-    				if ($exception->getId()){
-
-    					$reportAr = unserialize($content);
-    					$title = $reportAr[0];
-    					$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION, $content, $title, $datetime);
-    					
-    					$loggedDir = $reportDir.DS.'logged';
-    					if (!is_dir($loggedDir)){
-    						mkdir($loggedDir);
-							chmod($loggedDir,0775); 						
-    					}
-    					$loggedFile = $loggedDir.DS.$file;
-    					rename($fileToLog, $loggedFile);
-    					$numExceptions++;
-    				}
-    			}
-    		}catch(Exception $e){
-    			Mage::log($e->getMessage(),Zend_Log::ERR,'extensions_store_storealerts.log');
-    		}
+    	$preferences = Mage::getModel('storealerts/preference')->getCollection();
+    	$preferences->addFieldToFilter('user_id', array('gt' => '0'));
+    	$preferences->addFieldToFilter('alerts', array('LIKE' => '%exception%'));
+    	 
+    	if ($preferences->getSize()>0){
+    		$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
+    		$counter = 0;
+    		$reportDir = Mage::getBaseDir().DS.'var'.DS.'report';
+    		chmod($reportDir.DS.'*',0664);
+    		$files = scandir($reportDir);
+    		$helper = Mage::helper('storealerts');
+    		$currentDate = date('Y-m-d');
+    		 
+			if (count($files)>0){
+				foreach ($files as $file){
+					try {
+						$fileToLog = $reportDir.DS.$file;
+						if (is_file($fileToLog)){
+							if ($counter >= $limit){
+								break;
+							}
+							$counter++;
+							$content = file_get_contents($fileToLog);
+							$exceptionTime = filemtime($fileToLog);
+							$datetime = date('Y-m-d H:i:s', $exceptionTime);
+							$exception = Mage::getModel('extensions_store_storealerts/exception')->load($file,'file');
+							if (!$exception->getId()){
+								$exception->setCreatedAt($datetime);
+							}
+							$exception->setFile($file)
+							->setContent($content)
+							->setUpdatedAt($datetime)
+							->save();
+							if ($exception->getId()){
+								if ($exceptionTime > time()-3600){
+									$reportAr = unserialize($content);
+									$title = $reportAr[0];
+									$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION, $content, $title, $datetime);
+								}
+									
+								$loggedDir = $reportDir.DS.'logged';
+								if (!is_dir($loggedDir)){
+									mkdir($loggedDir);
+									chmod($loggedDir,0775);
+								}
+								$loggedFile = $loggedDir.DS.$file;
+								rename($fileToLog, $loggedFile);
+								$numExceptions++;
+							}
+						}
+					}catch(Exception $e){
+						Mage::log($e->getMessage(),Zend_Log::ERR,'extensions_store_storealerts.log');
+					}
+				}				
+			}
     	}
     	
     	return 'Number of exeptions logged: '.$numExceptions;

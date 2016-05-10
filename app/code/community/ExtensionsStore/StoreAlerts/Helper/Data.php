@@ -114,10 +114,6 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     		$admins->addFieldToFilter('user_id', array('in' => $userIds));
     		$adminIds = $admins->getAllIds();
     		$datetime = ($datetime) ? $datetime : date('Y-m-d H:i:s');
-    		//log for admin id 0
-    		if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG || $type == ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION){
-	    		$this->_saveAlert($type, $label, $title, $message, 'default', 0, $datetime);
-    		}
     		
     		foreach ($preferences as $preference){
     			
