@@ -128,8 +128,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     	
     	$numExceptions = 0;
     	$preferences = Mage::getModel('storealerts/preference')->getCollection();
-    	$preferences->addFieldToFilter('user_id', array('gt' => '0'));
-    	$preferences->addFieldToFilter('alerts', array('LIKE' => '%exception%'));
+    	$preferences->addFieldToFilter('alerts', array('like' => '%exception%'));
     	 
     	if ($preferences->getSize()>0){
     		$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
