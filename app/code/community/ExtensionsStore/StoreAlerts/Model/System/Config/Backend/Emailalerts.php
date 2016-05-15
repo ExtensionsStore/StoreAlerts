@@ -27,7 +27,10 @@ class ExtensionsStore_StoreAlerts_Model_System_Config_Backend_Emailalerts
         	$emailAlerts = $this->getValue();
         	
         	$datetime = date('Y-m-d H:i:s');
-        	 
+        	if (!$preference->getId()){
+        		$preference->setId($adminUser->getId());
+        		$preference->setCreatedAt($datetime);
+        	}
         	$preference->setEmailAlerts($emailAlerts);
         	$preference->setUpdatedAt($datetime);
         	$preference->save();

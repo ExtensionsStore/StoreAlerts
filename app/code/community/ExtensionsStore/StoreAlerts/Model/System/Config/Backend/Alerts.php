@@ -25,8 +25,12 @@ class ExtensionsStore_StoreAlerts_Model_System_Config_Backend_Alerts
         	$preference->load($adminUser->getId());
         	
         	$alerts = $this->getValue();
+        	
         	$datetime = date('Y-m-d H:i:s');
-        	 
+        	if (!$preference->getId()){
+        		$preference->setId($adminUser->getId());
+        		$preference->setCreatedAt($datetime);
+        	}
         	$preference->setAlerts($alerts);
         	$preference->setUpdatedAt($datetime);
         	$preference->save();
