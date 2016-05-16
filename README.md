@@ -1,6 +1,6 @@
 Store Alerts 
 ============
-Receive notifications from your Magento website on your mobile device. 
+Receive notifications from your Magento website on your mobile device, email or Slack channel. 
 Coming soon to the iOS App Store.
 
 Description
@@ -28,7 +28,7 @@ As you start to receive alerts, you can also view a list of alerts in the app:
 
 How to Install
 --------------
-The iOS app is scheduled for release February 2016. The Magento extension is available now.
+The iOS app is scheduled for release June 2016. The Magento extension is available now in beta.
 
 Modman:
 
