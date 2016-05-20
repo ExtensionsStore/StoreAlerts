@@ -27,6 +27,7 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
     		$device->load($deviceId);
     		
     		$deviceToken = $device->getDeviceToken();
+    		$name = $device->getName();
     		$accessToken = $device->getAccessToken();
     		
     		if ($deviceToken && $accessToken){
@@ -37,34 +38,22 @@ class ExtensionsStore_StoreAlerts_Adminhtml_System_StorealertsController
     			$push = Mage::getSingleton('storealerts/push');
     			$result = $push->push($deviceToken, $accessToken, $email, $message, $sound);
     			
-    			if (isset($result['error'])){
-    				 
-    				if ($result['error']){
-    					$errorMessages[] = $result['data'];
-    				}
+    			if (isset($result['error']) && $result['error']){
+    			    
+    			    if (isset($result['data']) && $result['data']) {
+    			        Mage::getSingleton('adminhtml/session')->addError($result['data']);
+    			    } else {
+    			        $errorMessage = Mage::helper('storealerts')->__('Could not connect to %s %s.', $name, $deviceToken);
+    			        Mage::getSingleton('adminhtml/session')->addError($errorMessage);
+    			    }
     				 
     			} else {
-    				 
-    				$errorMessages[] = 'Could not connect to '. $deviceToken;
+    			    $message = Mage::helper('storealerts')->__('Test alert has been sent to your device %s %s.', $name, $deviceToken);
+    			    Mage::getSingleton('adminhtml/session')->addSuccess($message);
     			}    			
     		}
-
     	}
-    	 
-		if (count($errorMessages)>0) {
-		
-			foreach ($errorMessages as $errorMessage){
-				Mage::getSingleton('adminhtml/session')->addError($errorMessage);
-			}
-		    
-		} else {
-			
-			$message = Mage::helper('storealerts')->__('Test alert has been sent to your device.');
-		     
-		    Mage::getSingleton('adminhtml/session')->addSuccess($message);
-		     
-		} 
-		 
+    	 		 
 		$this->_redirect('adminhtml/system_config/edit', array('section'=>'extensions_store_storealerts'));		
 	}
 	

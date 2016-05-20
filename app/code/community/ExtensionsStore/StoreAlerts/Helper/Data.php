@@ -9,6 +9,10 @@
 
 class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * 
+     * @return bool
+     */
     public function isDebug()
     {
         $storeId = Mage::app()->getStore()->getId();
@@ -17,6 +21,10 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
         return ($debugMode) ? true : false;
     }
     
+    /**
+     *  @param string $message
+     *  @@param int $level
+     */
     public function log($message, $level=null)
     {
         if ($this->isDebug() || (int)$level < 4){
@@ -57,6 +65,10 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     	return 'api.extensions-store.com';
     }
     
+    /**
+     * Get host domain name of your site
+     * @return string
+     */
     public function getDomain()
     {
     	$domain = '';
@@ -64,6 +76,11 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     	if (isset($_SERVER['HTTP_HOST'])){
     		
     		$domain = $_SERVER['HTTP_HOST'];
+    		$hostname = Mage::getStoreConfig('extensions_store_storealerts/configuration/hostname');
+    		
+    		if ($hostname && $hostname != $domain){
+    		    $domain = $hostname;
+    		}
     		
     	} else {
     		

@@ -46,7 +46,16 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[Secure HTTPS is not required for debug mode. Also enables logging.]]></comment>
-                        </debug_mode>                  
+                        </debug_mode>         
+                        <hostname translate="label comment">
+                            <label>Host/Domain Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[For developers, enter your production host/domain name here; i.e www.mystore.com.]]></comment>
+                        </hostname>                                    
                         <alerts translate="label comment">
                             <label>Select Alerts</label>
                             <frontend_type>multiselect</frontend_type>
