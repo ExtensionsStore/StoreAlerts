@@ -12,6 +12,7 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
     protected $_endPoint = '/alert';
     protected $_fp;
     protected $_curl;
+    protected $_emailTemplate;
     
     public function getCurl(){
     	if (!$this->curl){
@@ -27,6 +28,17 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
     	}
     	
     	return $this->curl;
+    }
+    
+    public function getEmailTemplate(){
+        if (!$this->_emailTemplate){
+            $templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
+            $this->_emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
+            $this->_emailTemplate->setSenderEmail ( Mage::getStoreConfig ( 'trans_email/ident_general/email' ) );
+            $this->_emailTemplate->setSenderName ( Mage::getStoreConfig ( 'trans_email/ident_general/name' ) );
+        }
+        
+        return $this->_emailTemplate;
     }
         
     public function push($deviceToken, $accessToken, $email, $message, $sound = 'default')
@@ -72,6 +84,17 @@ class ExtensionsStore_StoreAlerts_Model_Push extends Mage_Core_Model_Abstract
         return $result;
         
     }    
+    
+    public function pushEmailAlert($adminUser, $type, $datetime, $title, $message){
+        $email = $adminUser->getEmail();
+        $firstname = $adminUser->getFirstname();
+        $lastname = $adminUser->getLastname();
+        $emailName = trim($firstname.' '.$lastname);
+        $vars = array('type' => $type, 'datetime' => $datetime, 'title' => $title, 'message' => $message, );
+        $result = $this->getEmailTemplate()->send ( $email, $emailName, $vars );
+        
+        return $result;
+    }
     
     public function pushSlackHook($slackHookUrl, $message){
     	

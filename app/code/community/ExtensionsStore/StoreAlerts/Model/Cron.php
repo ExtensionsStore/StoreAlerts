@@ -25,12 +25,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     	$alerts->addFieldToFilter('updated_at',array('gteq' => $updatedAt));
     	
     	if ($alerts->getSize()>0){
-    		
-	    	$templateCode = ExtensionsStore_StoreAlerts_Model_Alert::TEMPLATE_CODE;
-    		$emailTemplate  = Mage::getModel('core/email_template')->loadByCode($templateCode);
-    		$emailTemplate->setSenderEmail ( Mage::getStoreConfig ( 'trans_email/ident_general/email' ) );
-    		$emailTemplate->setSenderName ( Mage::getStoreConfig ( 'trans_email/ident_general/name' ) ); 
-    		
+    		    		
     		$admins = array();
     		$preferences = array();
     		
@@ -57,6 +52,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     					$preference = Mage::getModel('storealerts/preference')->load($userId);
     					if ($preference->getSlackHooks()){
     						$slackHooks = explode(PHP_EOL,$preference->getSlackHooks());
+    						$slackHooks = array_filter($slackHooks);
     						if (is_array($slackHooks) && count($slackHooks)>0 && $slackHooks[0]){
     							$slackHooksUrls = array();
     							$selectedAlerts = explode(',',$preference->getAlerts());
@@ -74,18 +70,13 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     				}
     				
     				//send email alert
-    				$email = $adminUser->getEmail();
     				if ($preference->getEmailAlerts()){
-    					$firstname = $adminUser->getFirstname();
-    					$lastname = $adminUser->getLastname();
-    					$emailName = trim($firstname.' '.$lastname);
-    					$vars = array('type' => $label, 'datetime' => $datetime, 'title' => $title, 'message' => $message, );
-    					$result = $emailTemplate->send ( $email, $emailName, $vars );
+    					$result = $push->pushEmailAlert($adminUser, $label, $datetime, $title, $message);
     					if (!$result){
-    						$logTitle = "Store Alerts could not send alert to email: $email name: $emailName";
-    						$logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
-    						$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
-    					}
+    					    $logTitle = "Store Alerts could not send alert to email {$adminUser->getEmail()}";
+    					    $logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
+    					    $helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
+    					}    					
     				}
     				
     				//send slack hooks
@@ -93,7 +84,12 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     					
     					$slackHookUrls = $preference->getSlackHookUrls();
     					$slackHookUrl = $slackHookUrls[$type];
-    					$result = $push->pushSlackHook($slackHookUrl, $message);
+    					$result = $push->pushSlackHook(trim($slackHookUrl), $message);
+    					if (!$result){
+    					    $logTitle = "Store Alerts could not push to slack hook: {$slackHookUrl}";
+    					    $logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
+    					    $helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
+    					}
     				}
     				
     				//send device alert
@@ -106,6 +102,11 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     					$accessToken = $device->getAccessToken();
     					if ($deviceToken && $accessToken){
     						$result = $push->push($deviceToken, $accessToken, $email, substr($message, 0, 1900), $sound);
+    						if (!$result){
+    						    $logTitle = "Store Alerts could not push to device: {$deviceToken}";
+    						    $logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
+    						    $helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $logMessage, $logTitle, null);
+    						}
     					}
     				}
     				

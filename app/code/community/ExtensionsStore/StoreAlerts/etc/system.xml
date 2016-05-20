@@ -149,11 +149,20 @@
                             <show_in_store>0</show_in_store>
                             <comment><![CDATA[Left length of log message in determining duplication.]]></comment>
                         </duplicate_log_length>                                                                                                      
+                        <test_message translate="label comment">
+                            <label>Test message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Test message for below button.]]></comment>
+                        </test_message>                                                                                                                              
                         <test_alert translate="label comment">
                             <label>Test Alert</label>
                             <frontend_type>button</frontend_type>
                             <frontend_model>extensions_store_storealerts/adminhtml_system_config_form_button</frontend_model>
-                            <sort_order>90</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>

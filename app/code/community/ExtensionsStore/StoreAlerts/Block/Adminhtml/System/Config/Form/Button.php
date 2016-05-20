@@ -13,13 +13,30 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_System_Config_Form_Button exte
 	{
 		$this->setElement($element);
 		$url = $this->getUrl('adminhtml/system_storealerts/testalert');
-
+		$script = 
+"<script>
+function testAlert(){
+    var message = $('extensions_store_storealerts_configuration_test_message').value;
+    var data = { message : message };
+    new Ajax.Request('".$url."', {
+        method: 'POST',
+        parameters: data,
+        onFailure: function(transport) {
+            alert('An error occurred.');
+	   },
+        onSuccess: function(transport) {
+            alert('Test alerts have been sent.');
+	   }
+    });
+}
+</script>";
 		$html = $this->getLayout()->createBlock('adminhtml/widget_button')
 			->setType('button')
 			->setClass('scalable')
 			->setLabel('Send Alert')
-			->setOnClick("setLocation('$url')")
+			->setOnClick("testAlert()")
 			->toHtml();
+		$html .= $script;
 
 		return $html;
 	}
