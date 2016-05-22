@@ -114,7 +114,6 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
         $dataStr = json_encode($data);
 
         $ch = curl_init();
-        $fp = fopen('var/log/extensions_store_storealerts.log', 'w+');
         $headers = array(
             'Host: '.$helper->getApiHost(),
             'Content-Type: application/json',
@@ -126,7 +125,6 @@ class ExtensionsStore_StoreAlerts_Model_Register extends Mage_Core_Model_Abstrac
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
         curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_STDERR, $fp);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);                                                                        //proceeding with the login.
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataStr);
