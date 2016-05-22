@@ -145,9 +145,11 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     		
     		foreach ($notifications as $notification){
     				
-    			$message = $notification->getTitle();
+    			$title = $notification->getTitle();
+    		    $message = $notification->getDescription();
+    		    $datetime = $notification->getDateAdded();
     				
-    			$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::NOTIFICATION, $message);
+    			$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::NOTIFICATION, $message, $title, $datetime);
     			
     			if ($markNotificationRead){
     				$notification->setIsRead(1)->save();
