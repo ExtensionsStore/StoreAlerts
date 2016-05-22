@@ -10,7 +10,8 @@ When an error occurs on your website, it'll be logged for your review in your ad
 
 <img src="md/grid.png" />
 
-These errors will be sent to your mobile device as alert Notifications. 
+These errors and other alerts will be sent to your mobile device as alert Notifications. 
+Also supported are email alerts and Slack channel notifications.
 
 Install our app on your iOS mobile device. Then log in to your website:
 
@@ -28,7 +29,9 @@ As you start to receive alerts, you can also view a list of alerts in the app:
 
 How to Install
 --------------
-The iOS app is scheduled for release June 2016. The Magento extension is available now in beta.
+The iOS app is available now on the 
+<a href="https://itunes.apple.com/us/app/extensions-store/id1115830392?ls=1&mt=8">iTunes</a> and the App Store. 
+The Magento extension is available now in beta.
 
 Modman:
 
@@ -42,7 +45,7 @@ Composer:
 {
     "require": {
         "magento-hackathon/magento-composer-installer": "dev-master",
-    	"extensions-store/store-alerts" : "dev-master"
+    	"extensions-store/store-alerts" : "1.0"
     },
     "repositories" : [
     	{
