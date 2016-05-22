@@ -1,7 +1,7 @@
 Store Alerts 
 ============
 Receive notifications from your Magento website on your mobile device, email or Slack channel. 
-Coming soon to the iOS App Store.
+Now available on the iOS App Store.
 
 Description
 -----------
