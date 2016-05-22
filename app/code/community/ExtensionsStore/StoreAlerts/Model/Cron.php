@@ -101,7 +101,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     					$deviceToken = $device->getDeviceToken();
     					$accessToken = $device->getAccessToken();
     					if ($deviceToken && $accessToken){
-    						$result = $push->push($deviceToken, $accessToken, $email, substr($message, 0, 1900), $sound);
+    						$result = $push->push($deviceToken, $accessToken, $adminUser->getEmail(), substr($message, 0, 1900), $sound);
     						if (!$result){
     						    $logTitle = "Store Alerts could not push to device: {$deviceToken}";
     						    $logMessage = "Alert ID: {$alert->getId()}; Alert title: $title";
@@ -263,7 +263,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
             $helper = Mage::helper('storealerts');
             //$format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
             $format = explode(' ', $line);
-            $timestamp = $format[0];
+            $timestamp = @$format[0];
             $time = strtotime($timestamp);
             if ($time){//start of new entry
                 if ($this->_timestamp){//write previous entry
@@ -281,10 +281,10 @@ class ExtensionsStore_StoreAlerts_Model_Cron
             
                 $this->_timestamp = $timestamp;
                 $this->_datetime = date('Y-m-d H:i:s', strtotime($timestamp));;
-                $this->_priorityName = $format[1];
-                $priority = $format[2];
+                $this->_priorityName = @$format[1];
+                $priority = @$format[2];
                 $this->_priority = str_replace(array('(',')',':'), '', $priority);
-                $messageAr = array_slice($format,3);
+                $messageAr = @array_slice($format,3);
                 $this->_message = implode(' ', $messageAr);
             
                 $this->_title = trim(substr($this->_message,0,80));
