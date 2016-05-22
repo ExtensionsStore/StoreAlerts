@@ -9,6 +9,8 @@
 
 class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_logLevel;
+    
     /**
      * 
      * @return bool
@@ -31,6 +33,21 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
             
             Mage::log($message, $level, 'extensions_store_storealerts.log');
         }
+    }
+    
+    /**
+     * @return bool
+     */
+    public function logPriority($priority){
+        if (!$this->_logLevel){
+            $this->_logLevel = (int)Mage::getStoreConfig('extensions_store_storealerts/configuration/log_level');
+        }        
+        
+        if (is_numeric($priority) && $priority <= $this->_logLevel){
+            return true;
+        }
+        
+        return false;
     }
     
     /**
@@ -102,20 +119,38 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $message
      * @param string $title
      * @param string $datetime
+     * @return bool 
      */
     public function saveAlert($type, $message, $title = null, $datetime = null)
     {
+        $message = trim($message);
+        
     	if ($type == ExtensionsStore_StoreAlerts_Model_Alert::LOG || $type == ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION){
     		$alerts = Mage::getModel('storealerts/alert')->getCollection();
     		$length = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_length');
+    		//check if same message at same time
     		$alerts->addFieldToFilter(new Zend_Db_Expr("LEFT(message,$length)"), substr($message,0,$length));
-    		$today = date('Y-m-d');
-    		$alerts->addFieldToFilter('created_at', array('gteq' => $today));
-    		$limit = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_limit');
+    		$createdAt = ($datetime) ? date('Y-m-d H:i:s', strtotime($datetime)) :  date('Y-m-d H:i:s');
+    		$alerts->addFieldToFilter('created_at', array('eq' => $createdAt));
     		$size = $alerts->getSize();
     		$sql = (string)$alerts->getSelect();
+    		if ($size > 0){
+    		    return false;
+    		}
+    		//check if message was already logged in the last 24 hours
+    		$alerts = Mage::getModel('storealerts/alert')->getCollection();
+    		$alerts->addFieldToFilter(new Zend_Db_Expr("LEFT(message,$length)"), substr($message,0,$length));
+		    $timeStart = ($datetime) ? strtotime($datetime)  : time();
+		    $timeEnd = ($datetime) ? strtotime($datetime) + 86400 : time() + 86400;
+		    $dateStart = date('Y-m-d 00:00:01', $timeStart);
+		    $dateEnd = date('Y-m-d H:i:s', $timeEnd);
+		    $alerts->addFieldToFilter('created_at', array('gteq' => $dateStart));
+		    $alerts->addFieldToFilter('created_at', array('lt' => $dateEnd));
+    		$sql = (string)$alerts->getSelect();
+		    $size = $alerts->getSize();
+    		$limit = Mage::getStoreConfig('extensions_store_storealerts/configuration/duplicate_log_limit');
     		if ($size >= $limit){
-    			return;
+    			return false;
     		}    		
     	}
 
@@ -163,7 +198,8 @@ class ExtensionsStore_StoreAlerts_Helper_Data extends Mage_Core_Helper_Abstract
     
     		$this->log($e->getMessage(), 3);
     	}
-    
+    	
+    	return true;
     }    
     
     /**

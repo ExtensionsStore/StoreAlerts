@@ -89,14 +89,14 @@
                     <model>extensions_store_storealerts/cron::checkNotifications</model>
                 </run>
             </storealerts_check_notifications>     
-            <storealerts_log_exceptions>
+            <storealerts_archive>
                 <schedule>
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>extensions_store_storealerts/cron::logExceptions</model>
+                    <model>extensions_store_storealerts/cron::archive</model>
                 </run>
-            </storealerts_log_exceptions>                        
+            </storealerts_archive>                        
         </jobs>
     </crontab>    
     <global>

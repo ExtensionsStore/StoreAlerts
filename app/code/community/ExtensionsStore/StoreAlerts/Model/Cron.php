@@ -162,11 +162,153 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     }
     
     /**
-     * Store exception reports in exception table
-     * Save report in alert 
+     * Archive logs and reports
+     * 
      * @param Mage_Cron_Model_Schedule $schedule
+     * @return string
      */
-    public function logExceptions($schedule){
+    public function archive($schedule){
+        
+        $helper = Mage::helper('storealerts');
+        $reportsArchived = $this->_archiveExceptionReports();
+        $systemArchivePath = Mage::getBaseDir('var').DS.'log'.DS.'system_archive.log';
+        $exceptionArchivePath = Mage::getBaseDir('var').DS.'log'.DS.'exception_archive.log';
+        
+        if (file_exists($systemArchivePath) || file_exists($exceptionArchivePath)){
+            $preferences = Mage::getModel('storealerts/preference')->getCollection();
+            $preferences->addFieldToFilter('alerts', array('like' => '%log%'));
+            if ($preferences->getSize()>0){
+                $logs = array();
+                if (file_exists($systemArchivePath)){
+                    $systemLine = Mage::getBaseDir('var').DS.'log'.DS.'system_line.log';
+                    $currentLine = (file_exists($systemLine)) ? file_get_contents($systemLine) : 0;
+                    $logs['system'] = array('file'=>$systemArchivePath, 'line_file' => $systemLine, 'current_line'=>$currentLine);;
+                }
+                if (file_exists($exceptionArchivePath)){
+                    $exceptionLine = Mage::getBaseDir('var').DS.'log'.DS.'exception_line.log';
+                    $currentLine = (file_exists($exceptionLine)) ? file_get_contents($exceptionLine) : 0;
+                    $logs['exception'] = array('file'=>$exceptionArchivePath, 'line_file' => $exceptionLine , 'current_line'=>$currentLine);
+                }
+                if (count($logs)>0){
+                    $limit = 100;
+                    foreach ($logs as $type=>$log){
+                        $lines = array();
+                        $entriesProcessed = 0;
+                        $file = $log['file'];
+                        $currentLine = (int)trim($log['current_line']);
+                        $lineFile = $log['line_file'];
+                        $logFile = new SplFileObject($file);
+                        $logFile->seek(PHP_INT_MAX);
+                        $linesTotal = $logFile->key();
+                        $logFile->seek($currentLine);
+                        while(!$logFile->eof()){
+                            if ($entriesProcessed >= $limit){
+                                break;
+                            }
+                            $logFile->seek($currentLine);
+                            $line = $logFile->current();
+                            $lines[] = $line;
+                            $lastLine = ($currentLine == $linesTotal - 1) ? true : false;
+                            $logged = $this->_logLine($line, $lastLine);
+                            if ($logged === true){
+                                $entriesProcessed++;
+                                $logs[$type]['entries_processed'] = $entriesProcessed;
+                                file_put_contents($lineFile, $currentLine);
+                            }
+                            $currentLine++;
+                            $logs[$type]['current_line'] = $currentLine;
+                        }
+            
+                        if ($logFile->eof()){
+                            unlink($file);
+                            unlink($lineFile);
+                        }
+                        $logFile = null;
+                    }
+            
+                }
+            
+                $systemLogArchived = (int)@$logs['system']['entries_processed'];
+                $exceptionLogArchived = (int)@$logs['exception']['entries_processed'];
+            
+                return $helper->__('Number of exception reports archived: %s; number of system log archived: %s; number of exception log archived: %s', $reportsArchived, $systemLogArchived, $exceptionLogArchived );
+            }
+            
+        }
+        
+        return $helper->__('Number of exception reports archived: %s', $reportsArchived );
+    }
+            
+    /**
+     * Log line data
+     */
+    protected $_logLevel;
+    protected $_timestamp;
+    protected $_datetime;
+    protected $_priority;
+    protected $_priorityName;
+    protected $_message;
+    protected $_title;
+    
+    /**
+     * @param string $line
+     * @param string $logLastLine
+     * @return bool $logged;
+     */
+    protected function _logLine($line, $lastLine=false){
+        $logged = false;
+        if ($line){
+            $helper = Mage::helper('storealerts');
+            //$format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
+            $format = explode(' ', $line);
+            $timestamp = $format[0];
+            $time = strtotime($timestamp);
+            if ($time){//start of new entry
+                if ($this->_timestamp){//write previous entry
+            
+                    if ($helper->logPriority($this->_priority)){
+                        $logged = $helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $this->_message, $this->_title, $this->_datetime);
+                    }
+                    $this->_timestamp = null;
+                    $this->_datetime = null;
+                    $this->_priorityName = null;
+                    $this->_priority = null;
+                    $this->_message = null;
+                    $this->_title = null;
+                }
+            
+                $this->_timestamp = $timestamp;
+                $this->_datetime = date('Y-m-d H:i:s', strtotime($timestamp));;
+                $this->_priorityName = $format[1];
+                $priority = $format[2];
+                $this->_priority = str_replace(array('(',')',':'), '', $priority);
+                $messageAr = array_slice($format,3);
+                $this->_message = implode(' ', $messageAr);
+            
+                $this->_title = trim(substr($this->_message,0,80));
+                $this->_title .= (strlen($this->_message)>80) ? '...' : '';
+                
+            } else {
+                $line = trim($line);
+                $this->_message .= $line;
+            }
+            
+            //log the last line
+            if ($lastLine && $helper->logPriority($this->_priority)){
+                $logged = $helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::LOG, $this->_message, $this->_title, $this->_datetime);
+            }
+            
+        }
+        		
+        return $logged;
+    }
+    
+    /**
+     * Archive exception reports in exception table
+     * Save report in alert 
+     * @return int
+     */
+    protected function _archiveExceptionReports(){
     	
     	$numExceptions = 0;
     	$preferences = Mage::getModel('storealerts/preference')->getCollection();
@@ -176,7 +318,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     		$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
     		$counter = 0;
     		$reportDir = Mage::getBaseDir().DS.'var'.DS.'report';
-    		chmod($reportDir.DS.'*',0664);
+    		//chmod($reportDir.DS.'*',0664);
     		$files = scandir($reportDir);
     		$helper = Mage::helper('storealerts');
     		$currentDate = date('Y-m-d');
@@ -202,11 +344,9 @@ class ExtensionsStore_StoreAlerts_Model_Cron
 							->setUpdatedAt($datetime)
 							->save();
 							if ($exception->getId()){
-								if ($exceptionTime > time()-3600){
-									$reportAr = unserialize($content);
-									$title = $reportAr[0];
-									$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION, $content, $title, $datetime);
-								}
+								$reportAr = unserialize($content);
+								$title = $reportAr[0];
+								$helper->saveAlert(ExtensionsStore_StoreAlerts_Model_Alert::EXCEPTION, $content, $title, $datetime);
 									
 								$loggedDir = $reportDir.DS.'logged';
 								if (!is_dir($loggedDir)){
@@ -225,6 +365,6 @@ class ExtensionsStore_StoreAlerts_Model_Cron
 			}
     	}
     	
-    	return 'Number of exeptions logged: '.$numExceptions;
+    	return $numExceptions;
     }
 }
