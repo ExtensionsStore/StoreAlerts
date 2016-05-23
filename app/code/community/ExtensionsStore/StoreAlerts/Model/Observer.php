@@ -29,6 +29,7 @@ class ExtensionsStore_StoreAlerts_Model_Observer
     	$shippingAddressStr = preg_replace('/\s+/', ' ',$shippingAddressStr);
     	$itemsLabel = $helper->__('Items');
     	$items = $order->getAllVisibleItems();
+    	$itemsStr = '';
     	foreach ($items as $item){
     	    $itemsStr .= $item->getSku(). ' ' .$item->getName()."\n";
     	}
