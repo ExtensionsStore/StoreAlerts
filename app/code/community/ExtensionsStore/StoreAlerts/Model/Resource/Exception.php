@@ -13,7 +13,7 @@ class ExtensionsStore_StoreAlerts_Model_Resource_Exception
 	
     protected function _construct()
     {
-        $this->_init('extensions_store_storealerts/exception', 'user_id');
+        $this->_init('extensions_store_storealerts/exception', 'id');
     }
 	
 }

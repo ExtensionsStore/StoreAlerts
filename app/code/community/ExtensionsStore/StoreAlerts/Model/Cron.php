@@ -320,7 +320,6 @@ class ExtensionsStore_StoreAlerts_Model_Cron
     		$limit = ExtensionsStore_StoreAlerts_Model_Exception::LIMIT;
     		$counter = 0;
     		$reportDir = Mage::getBaseDir().DS.'var'.DS.'report';
-    		//chmod($reportDir.DS.'*',0664);
     		$files = scandir($reportDir);
     		$helper = Mage::helper('storealerts');
     		$currentDate = date('Y-m-d');
@@ -329,7 +328,7 @@ class ExtensionsStore_StoreAlerts_Model_Cron
 				foreach ($files as $file){
 					try {
 						$fileToLog = $reportDir.DS.$file;
-						if (is_file($fileToLog)){
+						if (is_file($fileToLog) && substr($file,0,1)!='.'){
 							if ($counter >= $limit){
 								break;
 							}
