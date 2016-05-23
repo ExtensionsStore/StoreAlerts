@@ -144,14 +144,14 @@
             </extensions_store_storealerts_resource>		            
         </models>
         <resources>
-            <extensions_store_storealerts_setup>
+            <storealerts_setup>
                 <setup>
                     <module>ExtensionsStore_StoreAlerts</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </extensions_store_storealerts_setup>
+            </storealerts_setup>
         </resources>   
  		<log>
         	<core>
