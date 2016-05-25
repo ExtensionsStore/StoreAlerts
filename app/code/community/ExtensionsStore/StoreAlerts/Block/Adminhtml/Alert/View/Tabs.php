@@ -22,7 +22,7 @@ class ExtensionsStore_StoreAlerts_Block_Adminhtml_Alert_View_Tabs extends Mage_A
     /**
      * Retrieve visitor entity
      * 
-     * @return Mage_Log_Model_Visitor
+     * @return ExtensionsStore_StoreAlerts_Model_Alert
      */
     public function getAlert() {
         return Mage::registry('alert');
