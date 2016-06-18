@@ -29,9 +29,9 @@ As you start to receive alerts, you can also view a list of alerts in the app:
 
 How to Install
 --------------
-The iOS app is available now on the 
+The iOS app is available on the 
 <a href="https://itunes.apple.com/us/app/extensions-store/id1115830392?ls=1&mt=8">iTunes</a> and the App Store. 
-The Magento extension is available now in beta.
+The Magento extension is available now on <a href="https://www.extensions-store.com/extensions/store-alerts.html">Extensions Store</a>.
 
 Modman:
 
@@ -62,3 +62,7 @@ Composer:
 }
 
 </pre>
+
+Support
+-------
+Contact us through our website at https://www.extensions-store.com/support.html.

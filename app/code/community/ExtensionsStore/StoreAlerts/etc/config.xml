@@ -10,7 +10,7 @@
 <config>
     <modules>
         <ExtensionsStore_StoreAlerts>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </ExtensionsStore_StoreAlerts>
     </modules>
     <phpunit>

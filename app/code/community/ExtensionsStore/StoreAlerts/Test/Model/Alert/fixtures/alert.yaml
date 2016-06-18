@@ -1,0 +1,13 @@
+config:
+    default/extensions_store_storealerts/configuration/log_level: 3
+tables:
+  admin/user:
+    - user_id: 1
+      firstname: John
+      lastname: Doe
+      username: owner@example.com
+      email: owner@example.com
+  storealerts/preference:
+    - user_id: 1
+      alerts: new_order,contact,notification,log,exception
+      
